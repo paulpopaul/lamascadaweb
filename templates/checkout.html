@@ -1,0 +1,257 @@
+{% extends "skeleton.html" %}
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+
+  <div class="bg-light py-3">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 mb-0"><a href="/">Inicio</a> <span class="mx-2 mb-0">/</span> <a href="{% url 'core:order_summary' %}">Carro</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">Caja</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% if order_item %}
+  <div class="site-section" data-aos="fade">
+    <div class="container">
+
+      <div class="row">
+        <div class="col-md-6 mb-5 mb-md-0">
+          <h2 class="h3 mb-3 text-black">Recibo</h2>
+          <div class="p-3 p-lg-5 border">
+            {% if perfil_account %}
+            <form id="formulario1" action="." method="POST" action="/integracion_tbk/normal_index/">
+              {% csrf_token %}
+
+  
+  
+              <div class="form-group">
+                <label for="id_city" class="text-black">Ciudad <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="id_city" name="city" value="Lanco">
+              </div>
+
+              <div class="form-group row">
+                <div class="col-md-6">
+                  <label for="id_first_name" class="text-black">Nombre <span class="text-danger">*</span></label>
+                  <input type="text" class="form-control" id="id_first_name" name="first_name" value="{{ perfil_account.first_name}}">
+                </div>
+                <div class="col-md-6">
+                  <label for="id_last_name" class="text-black">Apellido <span class="text-danger">*</span></label>
+                  <input type="text" class="form-control" id="id_last_name" name="last_name" value="{{ perfil_account.last_name }}">
+                </div>
+              </div>
+
+
+
+              <div class="form-group row">
+                <div class="col-md-12">
+                  <label for="id_street_address" class="text-black">Dirección <span class="text-danger">*</span></label>
+                  <input type="text" class="form-control" id="id_street_address" name="street_address" placeholder="Nombre de calle" value="{{ perfil_account.street_address }}">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <input type="text" class="form-control" id="id_apartment_address" name="apartment_address" placeholder="Número de casa" value="{{ perfil_account.apartment_address }}">
+
+              </div>
+
+
+              <div class="form-group row ">
+                <div class="col-md-6">
+                  <label for="id_email" class="text-black">Correo electrónico <span class="text-danger">*</span></label>
+                  {% if user.is_authenticated %}
+                  <input type="text" class="form-control" id="id_email" name="email" value="{{user.email}}">
+                  {% else %}
+                  <input type="text" class="form-control" id="id_email" name="email" value="">
+
+                  {% endif %}
+
+                </div>
+
+                <div class="col-md-6">
+                  <label for="id_phone" class="text-black">Teléfono <span class="text-danger">*</span></label>
+                  <input type="text" class="form-control" id="id_phone" name="phone" value="{{ perfil_account.phone }}">
+                </div>
+              </div>
+
+              <div class="form-group row mb-2">
+                <div class="col-md-12">
+                  <label for="id_order_notes" class="text-black">Detalle </label>
+                  <textarea name="order_notes" id="id_order_notes" cols="20" rows="4" class="form-control" value="">{{ perfil_account.order_notes }}</textarea>
+                </div>
+              </div>
+            </div>
+          </form>
+          {% else %}
+          <form id="formulario1" action="." method="POST" action="/integracion_tbk/normal_index/">
+            {% csrf_token %}
+
+
+            <div class="form-group">
+              <label for="id_city" class="text-black">Ciudad <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="id_city" name="city" value="Lanco">
+            </div>
+
+            <div class="form-group row">
+              <div class="col-md-6">
+                <label for="id_first_name" class="text-black">Nombre <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="id_first_name" name="first_name" value="">
+              </div>
+              <div class="col-md-6">
+                <label for="id_last_name" class="text-black">Apellido <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="id_last_name" name="last_name" value="">
+              </div>
+            </div>
+
+
+
+            <div class="form-group row">
+              <div class="col-md-12">
+                <label for="id_street_address" class="text-black">Dirección <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="id_street_address" name="street_address" placeholder="Nombre de calle" value="">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <input type="text" class="form-control" id="id_apartment_address" name="apartment_address" placeholder="Número de casa" value="">
+
+            </div>
+
+
+            <div class="form-group row ">
+              <div class="col-md-6">
+                <label for="id_email" class="text-black">Correo electrónico <span class="text-danger">*</span></label>
+                {% if user.is_authenticated %}
+                <input type="text" class="form-control" id="id_email" name="email" value="{{user.email}}">
+                {% else %}
+                <input type="text" class="form-control" id="id_email" name="email" value="">
+
+                {% endif %}
+
+              </div>
+
+              <div class="col-md-6">
+                <label for="id_phone" class="text-black">Teléfono <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="id_phone" name="phone" value="">
+              </div>
+            </div>
+
+            <div class="form-group row mb-2">
+              <div class="col-md-12">
+                <label for="id_order_notes" class="text-black">Detalle </label>
+                <textarea name="order_notes" id="id_order_notes" cols="20" rows="4" class="form-control" value=""></textarea>
+              </div>
+            </div>
+          </div>
+        </form>
+          {% endif %}
+        </div>
+
+
+        <div class="col-md-6">
+
+          <div class="row mb-5">
+            <div class="col-md-12">
+              <h2 class="h3 mb-3 text-black">Cupón </h2>
+              <div class="p-3 p-lg-5 border">
+                <label for="c_code" class="text-black mb-3">Ingrese su código de cupón si tiene uno</label>
+
+                {% if DISPLAY_COUPON_FORM %}
+                <form class="" action="{% url 'core:add_coupon' %}" method="POST" >
+                    {% csrf_token %}
+                    <div class="input-group" >
+                        {{ couponform.code }}
+                        <div class="input-group-append">
+                        <button class="btn btn-primary btn-sm  waves-effect m-0" name="submit" type="submit">Aplicar</button>
+                        </div>
+                    </div>
+                </form>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+          
+          <div class="row mb-5">
+            <div class="col-md-12">
+              <h2 class="h3 mb-3 text-black">Orden</h2>
+              <div class="p-3 p-lg-5 border">
+                <table class="table site-block-order-table mb-4">
+                  <thead>
+                    <th>Item</th>
+                    <th>Total</th>
+                  </thead>
+                  <tbody>
+                    {% for order_item in order_item %}
+
+                    <tr>
+                      <td>{{ order_item.item.title }}<strong class="mx-2">x</strong> {{ order_item.quantity }}</td>
+                      <td>${{ order_item.get_amount_saved|floatformat|intcomma }}</td>
+                    </tr>
+                    {% endfor %}
+                    <tr>
+
+                      <td class="text-black ">Subtotal</td>
+                      {% if order.get_total_final %}
+                      <td class="text-black">${{ order.get_total_final|floatformat|intcomma }}</td>
+                      {% endif %}
+                    </tr>
+                    <tr>
+
+                      {% if order.coupon %}
+                      <td class="text-black ">Cupón {{ order.coupon.code }} <span class="icon-check_circle display-8 text-success"></span>  <span class="text-success"> %{{ order.coupon.amount|floatformat|intcomma }} Off </span></td>
+                      <td class="text-black font-weight-bold"><span class="text-success">${{ order.get_discount_order_total|floatformat|intcomma }}</span></td>
+                      {% endif %}
+
+                    </tr>
+                    <tr>
+
+                      {% if order.get_total %}
+                      <td class="text-black font-weight-bold"><strong>Total</strong></td>
+                      <td class="text-black font-weight-bold"><strong>${{ order.get_total|floatformat|intcomma }}</strong></td>
+                      {% endif %}
+
+                    </tr>
+                  </tbody>
+                </table>
+
+
+                <div class="border p-3 mb-5">
+                  <h3 class="h6 mb-0"><a class="d-block" data-toggle="collapse" href="#collapsepaypal" role="button" aria-expanded="false" aria-controls="collapsepaypal">Webpay</a></h3>
+
+                  <div class="collapse" id="collapsepaypal">
+                    <div class="py-2">
+                      <p class="mb-0">T. Débito, Crédito y Prepago.</p>
+                    </div>
+                  </div>
+                </div>
+                <p>
+                  <input  type="submit" class="btn btn-primary btn-lg py-3 btn-block" value="Realizar Pedido" form="formulario1">
+
+                <!--<a href="/integracion_tbk/normal_index/" class="btn btn-primary btn-lg py-3 btn-block">Realizar pedido</a>-->
+                </p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <!-- </form> -->
+    </div>
+  </div>
+
+  {% else %}
+  <script>
+    window.location.href = "/tienda";
+    </script>
+  {% endif %}
+</div>
+    {% endblock content %}
+
+
+
+<!--
+<button class="btn btn-primary btn-lg py-3 btn-block" onclick="window.location='/thankyou'">Realizar pedido</button>
+
+-->

@@ -1,0 +1,734 @@
+
+
+{% extends "skeleton.html" %}
+{% load thumbnail %}
+{% load static %}
+{% load render_template_tags %}
+{% load filter_urls_tags %}
+{% load humanize %}
+
+
+{% block content %}
+
+<style>
+  .skin-light .btn-danger {
+  color: #fff;
+  background-color: #E8163F !important;
+  }
+  .red {
+  background-color: #F9E12F!important;
+  }
+  .skin-light .classic-tabs .nav.tabs-primary li a.active {
+  color: #E8163F !important;
+  border-color: #F15A29 !important;
+  }
+  </style>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <style>
+  .selector {
+  position: relative;
+  padding: 6px 0px;
+  width: 165px;
+  color: #7e7e7e;
+  }
+  .selector ul {
+  position: relative;
+  display: block;
+  overflow: auto;
+  min-width: 138px;
+  max-height: 200px;
+  background: #fff;
+  list-style: none;
+  white-space: inherit;
+  padding-right: 17px;
+  width: calc(100% + 17px);
+  }
+  .selector li {
+  position: relative;
+  padding: 3px 20px 3px 25px;
+  cursor: pointer;
+  }
+  .selector li:before {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  top: 4px;
+  display: inline-block;
+  margin-right: 9px;
+  width: 17px;
+  height: 17px;
+  background-color: #f4f4f4;
+  border: 1px solid #d5d5d5;
+  content: "";
+  }
+  .selector li[data-selected="1"]:before {
+  border: 1px solid #d7d7d7;
+  background-color: #fff;
+  }
+  .selector li[data-selected="1"]:after {
+  position: absolute;
+  top: 50%;
+  left: 3px;
+  top: 11px;
+  display: inline-block;
+  width: 4px;
+  height: 10px;
+  border-right: 2px solid;
+  border-bottom: 2px solid;
+  background: none;
+  color: #000000;
+  content: "";
+  -webkit-transform: rotate(40deg) translateY(-50%);
+  transform: rotate(40deg) translateY(-50%);
+  }
+  .selector li:hover {
+  color: #000000;
+  }
+  .selector li .total {
+  position: absolute;
+  right: 0;
+  color: #000000;
+  }
+
+  .selector .slider-price {
+    position: relative;
+    display: inline-block;
+    padding: 8px 26px !important;
+    width: 48% !important;
+    line-height: 28px;
+    text-align: center;
+    border: 1px solid #f5f5f5;
+    border-radius: 0px;
+}
+
+.selector .slider-price::before {
+
+    color: #000000 !important;
+
+}
+  .selector .price-slider {
+  text-align: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  position: relative;
+  padding-top: 17px;
+  color: #000000;
+
+  }
+  @media (min-width: 768px) {
+  .selector .price-slider {
+  padding-top: 8px;
+  }
+  }
+  .selector .price-slider:before {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  margin-top: 0;
+  color: #ffe9e1;
+  content: attr(data-currency);
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+  }
+  .selector #slider-range {
+  width: 90%;
+  margin-bottom: 30px;
+  border: none;
+  background: #ffe9e1;
+  height: 3px;
+  margin-left: 8px;
+  margin-right: 8px;
+  }
+  @media (min-width: 768px) {
+  .selector #slider-range {
+  width: 100%;
+  }
+  }
+  .selector .ui-slider-handle {
+  border-radius: 50%;
+  background-color: #39c9a9;
+  border: none;
+  top: -14px;
+  width: 28px;
+  height: 28px;
+  outline: none;
+  }
+  
+  @media (min-width: 768px) {
+  .selector .ui-slider-handle {
+  top: -7px;
+  width: 16px;
+  height: 16px;
+  }
+  }
+  .selector .ui-slider-range {
+  background-color: #d7d7d7;
+  }
+  .selector .slider-price {
+  position: relative;
+  display: inline-block;
+  padding: 5px 40px;
+  width: 40%;
+  line-height: 28px;
+  text-align: center;
+  color:#000000 !important;
+  }
+  .selector .slider-price:before {
+  position: absolute;
+  top: 50%;
+  left: 13px;
+  margin-top: 0;
+  color: #39c9a9;
+  content: attr(data-currency);
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+  }
+  .selector .show-all {
+  position: relative;
+  padding-left: 25px;
+  color: #39c9a9;
+  cursor: pointer;
+  line-height: 28px;
+  }
+  .selector .show-all:after,
+  .selector .show-all:before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 4px;
+  margin-top: -1px;
+  color: #39c9a9;
+  width: 10px;
+  border-bottom: 1px solid;
+  }
+  .selector .show-all:after {
+  -webkit-transform: rotate(90deg);
+  transform: rotate(90deg);
+  }
+  .selector.open ul {
+  max-height: none;
+  }
+  .selector.open .show-all:after {
+  display: none;
+  }
+  * {
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  }
+  </style>
+  <style>
+
+    
+  .toggle {
+    margin-top: 6px;
+
+  text-align: left;
+  display: block;
+  }
+  .toggle a {
+  display: inline-block;
+  color: #bdbdbd;
+  font-size: 24px;
+  text-decoration: none !important;
+  vertical-align: middle;
+  }
+  .toggle a.on {
+  color: #333;
+  }
+  .toggle a i.fa-bars {
+  transform: translateY(-1px);
+  }
+  p.toggle-row {
+  margin-bottom: 0;
+  }
+  i {
+  font-style: normal;
+  }
+  .adjust-right {
+  margin-right: 7px;
+  }
+  .adjust-left {
+  margin-left: 7px;
+  }
+  </style>
+  <style>
+  .ultra-padding{
+  margin-top: 200px;
+  }
+  .view-group {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  padding-left: 0;
+  margin-bottom: 0;
+  }
+  .thumbnail
+  {
+  margin-bottom: 30px;
+  padding: 0px;
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  border-radius: 0px;
+  }
+  .item.list-group-item
+  {
+  float: none;
+  width: 100%;
+  background-color: #fff;
+  margin-bottom: 30px;
+  -ms-flex: 0 0 100%;
+  flex: 0 0 100%;
+  max-width: 100%;
+  padding: 0 1rem;
+  border: 0;
+  }
+  .item.list-group-item .img-event {
+  float: left;
+  width: 30%;
+  }
+  .item.list-group-item .list-group-image
+  {
+  margin-right: 10px;
+  }
+  .item.list-group-item .thumbnail
+  {
+  margin-bottom: 0px;
+  display: flow-root;
+  }
+  .item.list-group-item .caption
+  {
+  float: left;
+  width: 70%;
+  margin: 0;
+  }
+  
+  .item.list-group-item:before, .item.list-group-item:after
+  {
+  display: table;
+  content: " ";
+  }
+  
+  .item.list-group-item:after
+  {
+  clear: both;
+  }
+  
+  
+  /*-------- BADGES - NEW - PERCENTAGE -------*/
+  .badge-new {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+  }
+  
+  .badge-percentage {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+  }
+
+.site-section {
+padding: 24px 0;
+}
+.text-primary {
+color: #E8163F!important;
+}
+.badge-primary {
+color: #fff;
+background-color: #E8163F;
+}
+.badge-color-product .nuevo{
+background: #00d68f;
+}
+.badge-color-product .promocion{
+background: #000000;
+}
+.card-separator-h{
+margin-bottom: 11px;
+}
+
+.card-header-text p{
+margin: 0px 0;
+width: 100%;
+height: 60px;
+font-size: 20px;
+font-weight: 400;
+line-height:25px;
+
+}
+input[id="id_form"], [id="div_id_title__icontains"] {
+font-family: Roboto,sans-serif;
+font-weight: 300;
+margin-bottom: 0px !important;
+margin-top: 0px !important;
+width: 100%;
+}
+.block-7 .btn {
+position: absolute;
+width: 97px;
+top: 50%;
+-webkit-transform: translateY(-50%);
+-ms-transform: translateY(-50%);
+transform: translateY(-50%);
+right: 3px;
+}
+
+.bootstrap-select {
+  width: 175px;
+    vertical-align: middle;
+    text-transform:none;
+
+}
+
+.bootstrap-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn) {
+    width: 175px;
+    text-transform:capitalize;
+
+}
+
+.bootstrap-select:not(.input-group-btn), .bootstrap-select[class*="col-"] {
+float: none;
+display: inline-block;
+margin-left: 0;
+width: 175px;
+}
+.dropdown bootstrap-select{
+text-transform:none;
+
+}
+
+
+.dropdown-select-order  {
+border: solid #dee2e6 1px;
+padding: 8px 9px;
+background:none;
+color:#bdbdbd;
+}
+
+.card-body {
+-webkit-box-flex: 1;
+-ms-flex: 1 1 auto;
+flex: 1 1 auto;
+padding: 0 8px;
+}
+
+.card-margin-bottom{
+margin-bottom:0
+}
+.text-dark {
+color: #bdbdbd!important;
+padding:0;
+}
+
+.page-item.active .page-link {
+background-color: #E8163F;
+border-color: #E8163F;
+}
+
+.page-link {
+
+color: #bdbdbd;
+
+}
+
+
+.image-box {
+    position: relative;
+    margin: auto;
+    overflow: hidden;
+    width: 540px;
+}
+.image-box img {
+    max-width: 100%;
+    transition: all 0.3s;
+    display: block;
+    width: 100%;
+    height: auto;
+    transform: scale(1);
+}
+
+.image-box:hover img {
+    transform: scale(1.1);
+}
+
+</style>
+    
+
+
+
+<div class="bg-light py-3">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 mb-0"><a href="/">Inicio</a> <span class="mx-2 mb-0">/</span> <a href="/tienda">Tienda</a> <span class="mx-2 mb-0">/</span>  <strong><b>{{ category_title }}</strong></b>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="site-section">
+  <div class="container">
+    <div class="row mb-3">
+      
+      <div class="col-md-9 order-2">
+        <div class="row  d-flex ">
+          <div class="col-md-12 mb-4 menubar-advance">
+
+              <div class="toggle ">
+                <p class="toggle-row">
+                  <a id="grid" class="view grid on" href="#" aria-label="Grid"><i class="fas fa-th  adjust-right" aria-hidden="true"></i></a>
+                  <a id="list" class="view list" href="#" aria-label="List"><i class="fas fa-th-list " aria-hidden="true"></i></a>
+                  <span class="mx-2">Mostrando {{ page_obj.start_index }} a {{ page_obj.end_index }} / de {{ page_obj.paginator.count }} items.</span>
+
+                </p>
+              </div>
+
+                <form class="ml-auto" method="GET">
+                  {{ filter.form.ordering_total }}
+                  <!--<label>Ordenar por</label>-->
+                </form>
+
+            </div>
+          </div>
+        <div class=" mb-5">
+          <div id="products" class="row view-group"  data-aos="fade-up">
+              {% for item in object_list %}
+              <div class="item col-sm-4 col-md-6 col-xs-3 col-lg-4">
+                <div class="thumbnail card text-center">
+                  <div class="img-event">
+                    <div class="view zoom  overlay z-depth-2 rounded">
+                      {% if item.label_is_active == True %}
+                      <h5 class="mb-0 badge-color-product"><span class="badge {{ item.get_label_display }} badge-pill text-light  badge-new ">{{ item.label }}</span></h4>
+                      {% else %}
+                      {% endif %}
+                      {% if item.discount_price_is_active == True %}
+                      <h5 class="mb-0"><span class="badge badge-primary badge-pill badge-percentage ">{{ item.discount_price }}%</span></h4>
+                      {% else %}
+                      {% endif %}
+                      <a class=""href="{{ item.get_absolute_url }}">
+                      <div class="mask">
+                        {% if item.image|thumbnail_url:'producto' %}
+
+                        <img class="img-fluid w-100"
+                          src="{{ item.image|thumbnail_url:'producto' }}">
+                          {% else %}
+                          <img class="img-fluid w-100" src="{% static 'img/default.jpg' %}">
+                          {% endif %}
+                        <div class="mask rgba-black-slight"></div>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+                <div class="caption card-body card-header-text ">
+                  <p class="pt-3">{{ item.title }} </p>
+                  <h6 class="pt-3 text-dark">{{ item.category }}</h6>
+                    {% if item.discount_price_is_active == True %}
+
+                  <h5 class=" text-primary  "><strong>${{ item.get_amount_saved_new_price|floatformat|intcomma  }}</strong></h5>
+                  <hp class="text-dark">$<del>{{ item.price|intcomma }}</del></h6>
+                  {% else %}
+                  <p class=" text-primary "><strong>${{ item.price|intcomma }}</strong></p>
+                  {% endif %}
+
+                  <div class="">
+                    <a href='{{ item.get_add_to_cart_url }}'  type="button" class="btn btn-primary  "><i class="fas fa-shopping-cart "></i></a>
+
+          <a class="buy-now btn btn-sm btn-primary" href="javascript:{document.getElementById('{{item.slug}}').submit()}">
+            <span><i class="icon-heart" aria-hidden="true"></i></span>
+        </a>      
+
+        <form action="{% url 'core:addtofavorite' %}" method="POST" id="{{item.slug}}">
+        {% csrf_token %}
+
+        <input type="hidden" name="product_id" value="{{item.id_item}}">
+        <input type="hidden" name="product_slug" value="{{item.slug}}">
+        <input type="hidden" name="product_name" value="{{item.title}}">
+        <input type="hidden" name="product_price" value="{{item.price}}">
+        {% if item.image|thumbnail_url:'producto' %}
+        <input type="hidden" name="product_photo" value="https://lamascada.cl{{ item.image.url}}">
+        {% else %}
+        <input type="hidden" name="product_photo" value="{% static 'img/default.jpg' %}">
+        {% endif %}
+        </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+          </div>
+
+
+
+        </div>
+{% if itemcount %}
+Se encontraron {{ page_obj.end_index }} items.
+{% else %}
+{% endif %}
+        {% if is_paginated %}
+        <nav aria-label="d-flex justify-content-center wow fadeIn">
+          <ul class="pagination pg-purple justify-content-center float-md-right mb-0">
+            {% if page_obj.has_previous %}
+            <li class="page-item"><a href="{% filter_urls page_obj.previous_page_numbe 'page' request.GET.urlencode %}" class="page-link"><i class="fas fa-chevron-left"></i></a></li>
+            {% endif %}
+            <li class="page-item active"><a href="{% filter_urls page_obj.number 'page' request.GET.urlencode %}" class="page-link">{{ page_obj.number }}</a></li>
+            {% if page_obj.has_next %}
+            <li class="page-item"><a href="{% filter_urls page_obj.next_page_number 'page' request.GET.urlencode %}" class="page-link"><i class="fas fa-chevron-right"></i></a></li>
+            {% endif %}
+          </ul>
+        </nav>
+        {% endif %}
+
+
+
+      </div>
+
+      <div class="col-md-3 order-1 mb-5 mt-3 mb-md-0">
+
+        <div class="border p-4  mb-4">
+          <h3 class="mb-3 h6 text-uppercase text-black d-block"><b>Buscar</b></h3>
+          <form action="/tienda" class="id_form md-form md-outline mt-0 d-flex justify-content-between align-items-center" method="GET">
+              <input placeholder="Buscar" type="text" name="title__icontains" class="textinput textInput form-control" id="id_title__icontains">
+            <button type="submit" class="btn btn-primary btn-buscar-box waves-effect"><i class=" btn-buscar-icon fas fa-search "></i></button>
+          </form>
+          <style type="text/css">
+            label[for="id_form"],[for="title__icontains"]
+            {
+              display:none;
+            }
+            input[id="id_form"],[id="div_id_title__icontains"]
+            {
+              font-family: Roboto,sans-serif;
+              font-weight:300;
+              margin-bottom: 0;
+              margin-top: 3px;
+              width: 100%;
+              
+            }
+            </style>
+            <script>
+              document.getElementsByName('title__icontains')[0].placeholder='Buscar';
+            </script>
+      </div>
+        <div class="border p-4  mb-4">
+          <h3 class="mb-3 h6 text-uppercase text-black d-block"><b>Categorias</b></h3>
+          <ul class="list-unstyled mb-0">
+            <li class="mb-1"><a href="/tienda" class="d-flex"><span>Ver Todas</span> <span class="text- ml-auto"><span class="badge badge-primary badge-pill">{% item_counter %}</span></span></a></li>
+            {% categories_li_a %}
+          </ul>
+        </div>
+        
+        <div class="border p-4  mb-4">
+            <h3 class="mb-3 h6 text-uppercase text-black d-block"><b>Precio</b></h3>
+            <ul class="list-unstyled mb-0">
+              <li class="mb-1"><a href="?price__gte=0&price__lte=7000" class="d-flex"><span>Bajo $7.000</span></a></li>
+              <li class="mb-1"><a href="?price__gte=7000&price__lte=14000" class="d-flex"><span>Sobre $7.000 a $14.000</span></a></li>
+              <li class="mb-1"><a href="?price__gte=14000&price__lte=30000" class="d-flex"><span>Sobre $14.000 a $30.000</span></a></li>
+              <li class="mb-1"><a href="?price__gte=30000&price__lte=90000" class="d-flex"><span>Sobre $30.000 a $90.000</span></a></li>
+            </ul>
+        </div>
+
+        <div class="border p-4  mb-4">
+            <h3 class="mb-3 h6 text-uppercase text-black d-block"><b>Presupuesto</b></h3>
+            
+            <div class="selector">
+              <div class="price-slider ">
+                <div id="slider-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content">
+                  <div class="ui-slider-range ui-corner-all ui-widget-header"></div>
+                    <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"></span>
+                    <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"></span>
+                  </div>
+                  <span name="price__gte" id="min-price" data-currency="$" class="slider-price">0</span> 
+                  <span class="seperator">-</span> 
+                  <span  name="price__lte" id="max-price" data-currency="$" data-max="40000" class="slider-price">40.000</span>
+                </div>
+                <form action="{{ category_title }}" method="GET" >
+                  <input class="form-control mb-0" type="hidden" id="preciominimotxt" step="50" name="price__gte"/>
+                  <input class="form-control mb-0" type="hidden" id="preciomaximotxt" step="50" name="price__lte"/>
+                  <button  class="btn btn-light mt-4" type="submit">Filtrar</button>
+                </form>
+            </div>
+
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+const numberFormat = new Intl.NumberFormat("de-ES");
+$("#slider-range").slider({
+range: true,
+min: 0,
+max: 40000,
+values: [ 0, 40000 ],
+step: 500,
+
+slide: function (event, ui) {
+$("#min-price").html(numberFormat.format(ui.values[0]));
+$( "#preciominimotxt" ).val( ui.values[ 0 ]) +  $( "#preciomaximotxt" ).val( ui.values[ 1 ]);
+
+suffix = "";
+if (ui.values[1] == $("#max-price").data("max")) {
+suffix = " +";
+}
+$("#max-price").html(numberFormat.format(ui.values[1]));
+}
+});
+</script>
+<script>
+var $gridButton = jQuery("a.view.grid");
+var $listButton = jQuery("a.view.list");
+var $items = jQuery("div.view-mode");
+
+$listButton.on("click", function () {
+$gridButton.removeClass("on");
+$listButton.addClass("on");
+$items.removeClass("col-4").addClass("col-12");
+});
+
+$gridButton.on("click", function () {
+$listButton.removeClass("on");
+$gridButton.addClass("on");
+$items.removeClass("col-12").addClass("col-4");
+});
+</script>
+<script>
+$(".hidden-text").hide();  
+
+$listButton.on("click", function () {
+$(".hidden-text").show();
+});
+
+$gridButton.on("click", function () {
+$(".hidden-text").hide();
+});
+
+$(document).ready(function() {
+$('#list').click(function(event){event.preventDefault();$('#products .item').addClass('list-group-item');});
+$('#grid').click(function(event){event.preventDefault();$('#products .item').removeClass('list-group-item ');$('#products .item').addClass('grid-group-item');});
+});
+</script>
+
+<script>
+$( document ).ready(function() {
+$('select').selectpicker();
+
+});
+</script>
+{% endblock content %}

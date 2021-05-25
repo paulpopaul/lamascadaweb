@@ -1,0 +1,120 @@
+
+{% load static %}
+
+<style>
+
+.block-7 .btn {
+width: 97px;
+}
+
+.horario-style-ul{
+list-style-type: none;
+padding:0;
+margin: 0;
+}
+.horario-text-title{
+color: #5c626e;
+}
+</style>
+{% block content %}
+
+   <footer class="site-footer border-top">
+    <div class="container" data-aos="fade">
+      <div class="row">
+        <div class="col-lg-6 mb-5 mb-lg-0">
+          <div class="row">
+            <div class="col-md-12">
+              <h3 class="footer-heading mb-4">Navegación</h3>
+            </div>
+            <div class="col-md-6 col-lg-4">
+              <ul class="list-unstyled">
+                <li><a href="/">Inicio</a></li>
+                <li><a href="/tienda">Tienda</a></li>
+                <li><a href="/order_summary">Carro</a></li>
+                <li><a href="/dashboard">Billetera</a></li>
+                <li><a href="/nosotros">Nosotros</a></li>
+                <li><a href="/contacto">Contacto</a></li>
+              </ul>
+            </div>
+            
+            <div class="col-md-6 col-lg-4">
+              <ul class="list-unstyled">
+                <li><a href="{% url 'account_signup' %}">Regístrate</a></li>
+                <li><a href="{% url 'account_login' %}">Iniciar Sesión</a></li>
+                <li><a href="{% url 'account_reset_password' %}">Recuperar Clave</a></li>
+                <li><a href="/profile">Mi cuenta</a></li>
+                <li><a href="{% url 'account_logout' %}">Cerrar Sesión</a></li>
+              </ul>
+            </div>
+            <div class="col-md-6 col-lg-4">
+              <ul class="list-unstyled">
+                <!--
+                <i class="fab fa-cc-mastercard"></i>
+                <i class="fab fa-cc-visa"></i>
+                <i class="fab fa-cc-amex"></i>
+                <i class="fab fa-cc-diners-club"></i>
+                -->
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3 mb-5 mb-lg-0">
+          <h3 class="footer-heading mb-4">Horario de atención </h3>
+            <ul class="horario-style-ul">
+              <li class=""><div class="horario-text-title">Lunes a Sábados</div><div class=""><i class="far fa-clock"></i> 13:00 a 21:00 hrs</div></li>
+              <!--<li class=""><div class="horario-text-title">Viernes</div><div class=""><i class="far fa-clock"></i> 10:00 am - 22:00 pm</div></li>
+              <li class=""><div class="horario-text-title">Sábado</div><div class=""><i class="far fa-clock"></i> 10:00 am - 21:00 pm</div></li>-->
+            </ul>
+
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="block-5 mb-5">
+            <h3 class="footer-heading mb-4">Información de contacto</h3>
+            <ul class="list-unstyled">
+              <li class="address">18 de Septiembre #88, Lanco, XIV Región de Los Ríos · Chile</li>
+              <li class="phone"><a href="tel://+56632441342 ">(+56) 63 244 1342 
+              </a></li>
+              <li class="email">contacto@lamascada.cl</li>
+            </ul>
+          </div>
+
+          <div class="block-7">
+            
+            <form action="#" method="POST">
+              <label for="email_subscribe" class="footer-heading">Suscríbete</label>
+
+              <div class="form-group">
+                <input type="text" class="form-control py-4" id="email_subscribe" placeholder="Email">
+                <input type="submit" class="btn btn-sm btn-primary" value="Enviar">
+              </div>
+
+            </form>
+            <style>
+            .social-icon-line {
+            padding: 10px 18px;
+            border: 1px solid #ccc;
+
+            } 
+            </style>
+            <div class="footer__social">
+              <a target="_blank" class="social-icon-line" href="https://es-la.facebook.com/pages/category/Restaurant/La-Mascada-Lanco-352050908148339/"><i class="fab fa-facebook-f"></i></a>
+
+              <a target="_blank" class="social-icon-line" href="https://www.instagram.com/lamascadalanco/"><i class="fab fa-instagram"></i></a>
+              <a target="_blank" class="social-icon-line" href="#"><i class="fab fa-tripadvisor"></i></a>
+              </div>
+          </div>
+        </div>
+      </div>
+      <div class="row pt-5 mt-5 text-center">
+        <div class="col-md-12">
+          <p>
+          <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+          La Mascada&copy; <b>2021</b> | Desarrollado <i style="color:#E8163F" class="icon-heart" aria-hidden="true"></i> por <a href="https://skeleton.cl/" target="_blank" class=""><b>Skeleton</b></a>
+          <br>Lanco, XIV Región de Los Ríos · Chile
+          <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+  {% endblock content %}

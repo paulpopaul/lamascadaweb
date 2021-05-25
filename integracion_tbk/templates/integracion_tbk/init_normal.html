@@ -1,0 +1,9 @@
+
+{% block content %}
+<form id="transactionpost" method="POST" action="{{ transaction.url }}">{% csrf_token %}
+<input type="hidden" name="token_ws" value="{{ transaction.token }}">
+</form>
+<script>
+document.getElementById('transactionpost').submit();
+</script>
+{% endblock content %}

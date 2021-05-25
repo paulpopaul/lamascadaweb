@@ -1,0 +1,8 @@
+
+{% block content %}
+<form id="transactioninit" method="POST" action="{% url 'integracion_tbk:normal_init_transaction' %}" class="pure-form pure-form-stacked">{% csrf_token %}
+</form>
+<script>
+  document.getElementById('transactioninit').submit();
+</script>
+{% endblock content %}

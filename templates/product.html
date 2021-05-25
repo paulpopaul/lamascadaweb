@@ -1,0 +1,383 @@
+
+{% extends "skeleton.html" %}
+{% load thumbnail %}
+
+{% load cart_template_tags %}
+
+{% load static %}
+{% load thumbnail %}
+{% load humanize %}
+
+{% block content %}
+
+{% if object.is_active == True %}
+<style>
+.badge-product-left{
+position: absolute;
+z-index: 999;
+top: 10px;
+left: 26px;
+}
+.badge-product-right{
+position: absolute;
+z-index: 999;
+top: 10px;
+right: 26px;
+}
+.btn-group-lg>.btn, .btn-md {
+    padding: 0.5rem 1rem;
+    /* font-size: 1.25rem; */
+    line-height: 1.5;
+    border-radius: 0;
+}
+.btn-outline-danger {
+    color: #E8161F;
+    background-color: transparent;
+    background-image: none;
+    border-color: #E8163F;
+}
+.input-group>.custom-file, .input-group>.custom-select, .input-group>.form-control {
+          position: relative;
+          -webkit-box-flex: 1;
+          -ms-flex: 1 1 auto;
+          flex: 0.40 auto;
+          width: 0;
+          margin-bottom: 0;
+          }
+          .btn-outline-secondary {
+          color: #6c757d;
+          background-color: #fafafa;
+          background-image: none;
+          border-color: #CED4DC;
+          }
+          .badge-danger {
+          color: #fff;
+          background-color: #E8163F;
+          }
+          .text-primary {
+          color: #E8163F!important;
+          }
+</style>
+<div class="bg-light py-3">
+  <div class="container">
+    <div class="row">
+      
+      <div class="col-md-12 mb-0"><a href="/">Inicio</a> <span class="mx-2 mb-0">/</span> <a href="/tienda">Tienda</a> <span class="mx-2 mb-0">/</span> <a href="{% url 'core:category' slug=object.category.slug %}">{{ object.category }}</a>  <span class="mx-2 mb-0">/</span> <strong class="text-black"><b>{{ object.title }}</b></strong> </div>
+    </div>
+  </div>
+</div>  
+
+<div class="site-section" data-aos="fade">
+  <div class="container">
+    <div class="row">
+      
+      <div class="col-12 col-md-6">
+        {% if item.label_is_active == True %}
+        <h4 class="mb-0 badge-color-product"><span class="badge {{ item.get_label_display }} badge-pill  badge-product-left text-light badge-new ">{{ item.label }}</span></h4>
+        {% else %}
+        {% endif %}
+        {% if item.discount_price_is_active == True %}
+        <h4 class="mb-0"><span class="badge badge-danger badge-product-right badge-pill badge-percentage ">-{{ item.discount_price }}%</span></h4>
+        {% else %}
+        {% endif %}
+        <link href="{% static 'css/lightslider.css' %}" rel="stylesheet">
+
+        <link href="https://sachinchoolur.github.io/lightslider/dist/css/lightslider.css" rel="stylesheet">
+
+          <ul id="lightSlider">
+
+            {% if object.image %}
+
+            <li data-thumb="{{ object.image|thumbnail_url:'producto'}}">
+              <img class="d-block w-100" src="{{ object.image|thumbnail_url:'producto' }}" alt="First slide">
+            </li>
+            {% else %}
+            <li data-thumb="{{ object.image|thumbnail_url:'producto'}}">
+              <img class="d-block w-100" src="{% static 'img/default.jpg' %}" alt="First slide">
+            </li>
+            {% endif %}
+
+
+            {% if object.image2 %}
+
+            <li data-thumb="{{ object.image2|thumbnail_url:'producto'}}">
+              <img class="d-block w-100" src="{{ object.image2|thumbnail_url:'producto' }}" alt="First slide">
+            </li>
+            {% else %}
+            {% endif %}
+
+            {% if object.image3 %}
+
+            <li data-thumb="{{ object.image3|thumbnail_url:'producto'}}">
+              <img class="d-block w-100" src="{{ object.image3|thumbnail_url:'producto' }}" alt="First slide">
+            </li>
+            {% else %}
+            {% endif %}
+
+            {% if object.image4 %}
+
+            <li data-thumb="{{ object.image4|thumbnail_url:'producto' }}">
+              <img class="d-block w-100" src="{{ object.image4|thumbnail_url:'producto'}}" alt="First slide">
+            </li>
+            {% else %}
+            {% endif %}
+          </ul>
+      </div>  
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script type="text/javascript" src="{% static 'js/lightslider.js' %}"></script>
+
+<script>
+$('#lightSlider').lightSlider({
+gallery: true,
+item: 1,
+loop:true,
+slideMargin: 0,
+thumbItem: 4,
+controls: true,
+
+//auto: true,
+pause: 4000,
+speed: 300, //ms'
+slideEndAnimation: true,
+});
+</script>
+
+<style>
+  .badge-color-product .nuevo{
+    background: #00d68f;
+  }
+  .badge-color-product .promocion{
+    background: #000000;
+  }
+  .rating{
+    margin-top: 11px;
+  }
+
+</style>
+
+
+      <div class="col-md-6">
+      
+        <h2 class="text-black"><b>{{ object.title }}</b></h2>
+        {% if item.discount_price_is_active == True %}
+
+        <h3><strong class="text-primary "><b>${{ object.get_amount_saved_new_price|floatformat|intcomma  }}</b></strong> </h3>
+        <h6><strong class="text-dark"><b>Normal: <del>${{ object.price|intcomma }}</del></b></strong></h6>
+        
+        <span class="badge badge-danger badge-pill badge-percentage ">
+          <th class="text-light" scope="row"><strong><b>Ahorra:</b> </strong></th>
+          <td> -${{ object.get_discount_item_ahorro|floatformat|intcomma  }} <span class="icon-check_circle display-8 text-light"></span> </td>
+          </span>
+          {% else %}
+          <h3><strong class="text-primary "><b>${{ object.get_amount_saved_new_price|floatformat|intcomma  }}</b></strong> </h3>
+          {% endif %}
+
+        <div class="rating">
+          {% if object.stars_reputation == "1" %}
+            <i class="fas fa-star fa-sm text-warning"></i>
+            <i class="far fa-star fa-sm text-warning"></i>
+            <i class="far fa-star fa-sm text-warning"></i>
+            <i class="far fa-star fa-sm text-warning"></i>
+            <i class="far fa-star fa-sm text-warning"></i>
+          {% elif object.stars_reputation == "2" %}
+          <i class="fas fa-star fa-sm text-warning"></i>
+          <i class="fas fa-star fa-sm text-warning"></i>
+          <i class="far fa-star fa-sm text-warning"></i>
+          <i class="far fa-star fa-sm text-warning"></i>
+          <i class="far fa-star fa-sm text-warning"></i>
+          {% elif object.stars_reputation == "3" %}
+          <i class="fas fa-star fa-sm text-warning"></i>
+          <i class="fas fa-star fa-sm text-warning"></i>
+          <i class="fas fa-star fa-sm text-warning"></i>
+          <i class="far fa-star fa-sm text-warning"></i>
+          <i class="far fa-star fa-sm text-warning"></i>
+          {% elif object.stars_reputation == "4" %}
+            <i class="fas fa-star fa-sm text-warning"></i>
+            <i class="fas fa-star fa-sm text-warning"></i>
+            <i class="fas fa-star fa-sm text-warning"></i>
+            <i class="fas fa-star fa-sm text-warning"></i>
+            <i class="far fa-star fa-sm text-warning"></i>
+          {% else %}
+          <i class="fas fa-star fa-sm text-warning"></i>
+          <i class="fas fa-star fa-sm text-warning"></i>
+          <i class="fas fa-star fa-sm text-warning"></i>
+          <i class="fas fa-star fa-sm text-warning"></i>
+          <i class="fas fa-star fa-sm text-warning"></i>
+          {% endif %}
+        </div>
+        <hr>
+
+        <p>{{ object.description}}</p>
+        <th class="" scope="row"><strong><b>SKU:</b> </strong></th>
+        <td>M000{{ object.id_item}}</td>
+        <div class="pt-2 pb-4">
+        {% if object.stock_active %}
+
+
+        <h6 style="color:#00d68f !important;"><strong>En Stock</strong></h6>
+        <th class="" scope="row"><strong><b>Cantidad: </b></strong></th>
+          <div class="mt-2 mb-4">
+            <div class="input-group mb-3" style="max-width: 120px;">
+              <div class="input-group-prepend">
+                <a class="btn btn-outline-secondary p-2"  href="{% url 'core:remove_single_item_from_cart' item.slug %}">&minus;</i></a>
+              </div>
+                <input width="8" type="text" class="form-control text-center" value="1"  aria-label="" aria-describedby="">
+              <div class="input-group-append">
+                <a class="btn btn-outline-secondary p-2"  href="{% url 'core:add_to_cart' item.slug %}">&plus;</i></a>
+              </div>
+            </div>
+          </div>
+
+        <p><a href="{{ object.get_add_to_cart_url }} " class="btn btn-primary btn-lg px-5 py-3 ">Agregar al carro</a>
+
+
+
+
+          <input type="hidden" name="user_id" value="{{user.id}}">
+          <input type="hidden" name="product_id" value="{{object.id_item}}">
+          <input type="hidden" name="product_slug" value="{{object.slug}}">
+          <input type="hidden" name="product_name" value="{{object.title}}">
+          <input type="hidden" name="product_price" value="{{object.price}}">
+          {% if object.image %}
+          <input type="hidden" name="product_photo"  value="https://lamascada.cl{{ object.image.url}}">
+          {% else %}
+          <input type="hidden" name="product_photo"  value="{% static 'img/default.jpg' %}">
+
+          {% endif %}
+          <input type="hidden" name="key_del" value="https://lamascada.cl={{user.id}}+{{object.id_item}}+{{object.slug}}+{{object.title}}+{{object.price}}+">
+
+          <a class="buy-now btn btn-sm btn-primary" href="javascript:{document.getElementById('favorite').submit()}">
+            <span><i class="icon-heart" aria-hidden="true"></i></span>
+        </a>      
+
+        <form action="{% url 'core:addtofavorite' %}" method="POST" id="favorite">
+        {% csrf_token %}
+        <input type="hidden" name="product_id" value="{{object.id_item}}">
+        <input type="hidden" name="product_slug" value="{{object.slug}}">
+        <input type="hidden" name="product_name" value="{{object.title}}">
+        <input type="hidden" name="product_price" value="{{object.price}}">
+        {% if object.image %}
+
+        <input type="hidden" name="product_photo" value="https://lamascada.cl{{ object.image.url}}">
+        {% else %}
+        <input type="hidden" name="product_photo"  value="{% static 'img/default.jpg' %}">
+
+        {% endif %}
+        </form>
+
+
+
+      </p>
+
+        {% else %}
+
+        <h6 class="pb-3" style="color:#E8163F !important;">Sin Stock</h6>
+        <a href='mailto:contacto@murtao.cl?subject=Notificar disponibilidad de {{ object.title }}&body=Mensaje: Hola, cuándo volverá a estar en stock este producto?%0D%0AGracias!%0D%0A%0D%0Alink: https://lamascada.cl/product/{{ object.slug }}%0D%0AID: M000{{ object.id_item}} %0D%0ANombre: {{ object.title}}' 
+        type="button" class="btn btn-outline-danger btn-md px-5 py-3"><i class="fas fa-bell  pr-2"></i>Notificar Disponibilidad</a>
+
+        {% endif %}
+          </div>
+        <hr>
+
+        <div class="table-responsive">
+          <table class="table table-sm table-borderless mb-0">
+            <tbody>
+              <tr>
+                <tr>
+                  <th class="pl-0 w-25" scope="row"><strong>Categoría:</strong></th>
+                  <td>{{ object.category }}</td>
+                </tr>
+                <tr>
+                  <th class="pl-0 w-25" scope="row"><strong>Etiquetas:</strong></th>
+                  <td>Chile, México, Picante</td>
+                </tr>
+                <tr>
+                  <th class="pl-0 w-25" scope="row"><strong>Compatir:</strong></th>
+                  <td>
+                  <!-- Grid column -->
+                  <div class=" ">
+
+                    <!-- Facebook -->
+                    <a class="fb-ic" target="_blank" href="https://www.facebook.com/sharer.php?u=http://127.0.0.1:8000/product/{{ object.slug }}">
+                      <i class="fab fa-facebook-f grey-text mr-4"> </i>
+                    </a>
+                    <!-- Twitter -->
+                    <a class="tw-ic" target="_blank" href="https://twitter.com/intent/tweet?url=http://127.0.0.1:8000/product/{{ object.slug }}&text=Disfrutando de est@s ric@s {{ object.title }}&via=murtaovaldivia&hashtags=#murtaovaldivia">
+                      <i class="fab fa-twitter grey-text mr-4"> </i>
+                    </a>
+                    <!-- Google +-->
+                    <a class="gplus-ic" target="_blank" href="https://plus.google.com/share?url=http://127.0.0.1:8000/product/{{ object.slug }}&Disfrutando de est@s ric@s {{ object.title }}&hl=es">
+                      <i class="fab fa-google-plus-g grey-text mr-4"> </i>
+                    </a>
+                    <!--Instagram-->
+                    <a class="ins-ic" target="_blank" href="mailto:contacto@murtao.cl?subject=Disfrutando de est@s ric@s {{ object.title }}&body=link: http://127.0.0.1:8000/product/{{ object.slug }}">
+                      <i class="fas fa-envelope grey-text mr-4"> </i>
+                    </a>
+
+                    <a class="gplus-ic" target="_blank" href="https://api.whatsapp.com/send?text=Disfrutando de est@s ric@s {{ object.title }}%20http://127.0.0.1:8000/product/{{ object.slug }}">
+                      <i class="fab fa-whatsapp grey-text mr-4"> </i>
+                    </a>
+
+                  </div>
+                  <!-- Grid column -->
+                  </td>
+                </tr>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+{% else %}
+<div class="bg-light py-3">
+<div class="container">
+<div class="row">
+
+<div class="col-md-12 mb-0"><a href="/">Inicio</a> <span class="mx-2 mb-0">/</span> <a href="/shop">Tienda</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">No Existe</strong> </div>
+</div>
+</div>
+</div>  
+<div class="container" data-aos="fade">
+<h2 class="text-center p-5">El producto que busca, no existe.</h2>
+</div>
+{% endif %}
+
+{% include "product_related.html" %}
+
+{% block extra_scripts %}
+{% endblock extra_scripts %}
+
+{% endblock content %}
+
+{% for orderitem in orderitem %}
+{{ orderitem.id }}<br>
+{{ orderitem.buy_order }}<br>
+{{ orderitem.ordered }}<br>
+{{ orderitem.quantity }}<br>
+{{ orderitem.item_id }}<br>
+{{ orderitem.user_id }}<br>
+{{ orderitem.item.title}}<br>
+{% endfor %}
+<br><br>
+{% for order in order %}
+{{ order.user }}<br>
+{{ order.buy_order }}<br>
+{{ order.items.count }}<br>
+{{ order.start_date }}<br>
+
+{{ order.ordered_date }}<br>
+{{ order.ordered }}<br>
+{{ order.shipping_address }}<br>
+{{ order.billing_address }}<br>
+{{ order.payment }}<br>
+{{ order.coupon }}<br>
+{{ order.received }}<br>
+{{ order.refund_requested }}<br>
+{{ order.refund_granted }}<br>
+{% endfor %}
+<br><br>

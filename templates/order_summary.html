@@ -1,0 +1,181 @@
+{% extends "skeleton.html" %}
+{% load humanize %}
+{% load static %}
+
+{% block content %}
+<div class="bg-light py-3">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 mb-0"><a href="/">Inicio</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">Carro</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="site-section">
+    <div class="container" sdata-aos="fade">
+      <div class="row mb-5">
+        <form class="col-md-12" method="post">
+          <div class="site-blocks-table">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th class="">N</th>
+
+                  <th class="">Imagen</th>
+                  <th class="product-name">Item</th>
+                  <th class="product-price">Precio</th>
+                  <th class="product-quantity">Cantidad</th>
+                  <th class="">Descuento</th>
+                  <th class="product-total">Total</th>
+                  <th class="product-remove"></th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {% for order_item in object.items.all %}
+                <tr>
+                  <td>{{ forloop.counter }}</td>
+
+                  <td class="">
+                    <a href="{{ order_item.item.get_absolute_url }}">
+                      {% if order_item.item.image %}
+                    <img width="120px" src="{{ order_item.item.image.url }}  ">
+                    {% else %}
+                    <img width="120px" src="{% static 'img/default.jpg' %}">
+                    {% endif %}
+                  </a>
+
+                  </td>
+                  <td class="product-name">
+
+                    <h5 class=" text-black">{{ order_item.item.title }}</h5>
+                  </td>
+                  <td>${{ order_item.item.price|intcomma  }}</td>
+                  <td>
+                    <a style="color:#595959;" href="{% url 'core:remove_single_item_from_cart' order_item.item.slug %}">&minus;</i></a>
+                    {{ order_item.quantity }}
+                    <a style="color:#595959;" href="{% url 'core:add_to_cart' order_item.item.slug %}">&plus;</i></a>
+                </td>
+                <td>
+                    <span class="badge badge-success">Desc. - %{{ order_item.item.discount_price|floatformat|intcomma }}</span><br>
+                    <span class="badge badge-primary"> Ahorra {{ order_item.get_total_discount_item_price|floatformat|intcomma }}</span>
+                </td>
+
+                  <td>
+                    {% if order_item.item.discount_price %}
+                    ${{ order_item.get_amount_saved|floatformat|intcomma }}
+                {% else %}
+                    ${{ order_item.get_total_item_price|floatformat|intcomma }}
+                {% endif %}
+                  </td>
+                  <td>
+                    <a href="{% url 'core:remove_from_cart' order_item.item.slug %}" class="btn btn-primary btn-sm">
+                        X
+                    </a>
+                </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan='8'>Tu carro está vacío.</td>
+                </tr>
+
+
+                {% endfor %}
+
+              </tbody>
+            </table>
+          </div>
+        </form>
+      </div>
+
+
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="row mb-5">
+            <div class="col-md-6 mb-3 mb-md-0">
+              <a class="btn btn-primary btn-sm btn-block " href='/tienda'>Seguir comprando</a>
+            </div>
+            <div class="col-md-6"> 
+              <a class='btn btn-outline-primary btn-sm btn-block' href="{% url 'core:order_summary' %}">Actualizar Carro</a>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 pl-5">
+          <div class="row justify-content-end">
+            <div class="col-md-7">
+              <div class="row">
+                <div class="col-md-12 text-right border-bottom mb-5">
+                  <h3 class="text-black h4 text-uppercase"><b>Carro</b></h3>
+                </div>
+              </div>
+              
+
+              {% if object.get_total_final %}
+              <div class="row mb-3">
+                <div class="col-md-6">
+                  <span class="text-black">Subtotal</span>
+                </div>
+                <div class="col-md-6 text-right">
+                  <span class="text-black">${{ object.get_total_final|floatformat|intcomma }}</span>
+                </div>
+              </div>
+              {% endif %}
+
+              {% if object.coupon %}
+
+              <div class="row mb-3">
+                <div class="col-md-6">
+                  <span class="text-black">Códido Cupón:</span>
+                </div>
+                <div class="col-md-6 text-right">
+                  
+                  <span class="text-black">{{ object.coupon.code }}</span>
+                  <span class="icon-check_circle display-8 text-success"></span> 
+                </div>
+
+                <div class="col-md-6">
+                  <span class="text-success"><b>%{{ object.coupon.amount|floatformat|intcomma }} Off</b></span>
+                </div>
+                <div class="col-md-6 text-right">
+                  <strong class="text-success">${{ object.get_discount_order_total|floatformat|intcomma }}</strong>
+                </div>
+              </div>
+
+              {% endif %}
+
+
+              {% if item %}
+                {% if object.get_total %}
+                <div class="row mb-5">
+                  <div class="col-md-6">
+                    <strong class="text-black"><b>Total</b></strong>
+                  </div>
+                  <div class="col-md-6 text-right">
+                    <strong class="text-black"><b>${{ object.get_total|floatformat|intcomma }}</b></strong>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                      <a class='btn btn-primary btn-lg py-3 btn-block' href='/checkout'>Finalizar Compra</a>
+
+                  </div>
+                </div>
+                {% endif %}
+                {% else %}
+                hola
+                {% endif %}
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+{% endblock content %}

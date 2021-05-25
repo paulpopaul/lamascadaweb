@@ -1,0 +1,71 @@
+
+{% load humanize %}
+
+{% block title %} Detail {% endblock %}
+{% block content %}
+
+
+{% if request.user.is_authenticated %}
+
+<div class="site-section" data-aos="fade">
+<div class="container">
+    <h1>Detalle de Compra</h1>
+<div class="row pb-4">
+<div class="col-md-12">
+{% for order in orders %}
+<h3>Orden de Compra : <span style="color:#6c757d;"> {{order.id}} </span></h3>
+
+<p> Pagó exitosamente <span class="icon-check_circle display-8 text-success"></span> ${{order.get_total|floatformat|intcomma}} CLP por este pedido.</p>
+{% endfor %}
+</div>
+  <form class="col-md-12" method="post">
+  <div class="site-blocks-table">
+  <table class="table table-bordered">
+  <thead>
+  <tr>
+  <th class="">#</th>
+  <th class="">Imagen</th>
+  <th class="">Nombre</th>
+  <th class="">Cantidad</th>
+  <th class="">Precio</th>
+  <th class="">Detalle</th>
+  </tr>
+  </thead>
+  <tbody>
+  {% for order_item in order_item %}
+  <tr>
+
+  <td>{{ forloop.counter }}</td>
+  <td> <img class="img-fluid" width="150px" src="{{ order_item.item.image.url }}"></td>
+  <td>{{ order_item.item.title}}</td>
+  <td>{{ order_item.quantity}}</td>
+  <td>${{ order_item.get_amount_saved|floatformat|intcomma }} CLP</td>
+  <td><a class="btn btn-sm btn-primary" href="{{ order_item.item.get_absolute_url }}">Ver detalle</a></td>
+  
+  </tr>
+  {% endfor %}
+
+  </tbody>
+  </table>
+
+  {% for order in orders %}
+  {{order.ordered_date}}
+  {% endfor %}
+  </div>
+  </form>
+</div>
+</div>
+</div>
+</div>
+
+
+{% else %}
+<script>
+  window.location.href = "/";
+  </script>
+{% endif %}
+
+
+
+
+{% endblock %}

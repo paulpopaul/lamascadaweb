@@ -1,0 +1,75 @@
+{% extends "skeleton.html" %}
+{% load humanize %}
+
+{% block title %} dashboard {% endblock %}
+
+
+{% block content %}
+
+<div class="bg-light py-3">
+<div class="container" >
+<div class="row">
+<div class="col-md-12 mb-0"><a href="/">Inicio</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">Pago</strong></div>
+</div>
+</div>
+</div>
+
+<div class="site-section" data-aos="fade">
+<div class="container">
+<div class="row pb-4">
+<div class="col-md-12">
+<h3>Bienvenido {{ userprofile }} </h3>
+<p>Detalles de los productos que ha comprado.</p>
+</div>
+<form class="col-md-12" method="post">
+<div class="site-blocks-table">
+<table class="table table-bordered">
+<thead>
+<tr>
+<th class="">#</th>
+<th class="">Fecha</th>
+<th class="product-name">Orden de Compra</th>
+<th class="product-price">Pago</th>
+<th class="product-quantity">Detalle</th>
+</tr>
+</thead>
+<tbody>
+{% if orders %}
+
+{% for order in orders %}
+
+{% if order.ordered == True %}
+
+
+<tr>
+<td>{{ forloop.revcounter }}</td>
+<td>{{order.ordered_date}}</td>
+<td>{{order.id}}</td>
+<td>Exitoso <span class="icon-check_circle display-8 text-success"></span></td>
+<td>
+<a class="btn btn-sm btn-primary" href="{% url 'core:details' order.buy_order %}">Ver detalle</a>
+</td>
+</tr>
+
+{% endif %}
+
+{% endfor %}
+
+{% else %}
+<tr>
+    <td colspan='8'>No hay compras realizadas.</td>
+</tr>
+{% endif %}
+
+
+</tbody>
+</table>
+</div>
+</form>
+</div>
+</div>
+</div>
+</div>
+
+  
+{% endblock %}

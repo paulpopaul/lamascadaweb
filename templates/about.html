@@ -1,0 +1,225 @@
+{% extends "skeleton.html" %}
+{% load thumbnail %}
+{% load static %}
+{% load humanize %}
+{% block content %}
+
+
+
+
+
+    <div class="bg-light py-3">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 mb-0"><a href="/">Inicio</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">Nosotros</strong></div>
+        </div>
+      </div>
+    </div>  
+
+
+
+    
+    <div class="site-section border-bottom" data-aos="fade">
+      <div class="container">
+        <div class="row mb-5">
+          <div class="col-md-6">
+            <div class="block-16">
+                <img src="{% static 'img/fondo/exterior-mascada.jpg' %}" alt="Image placeholder" class="img-fluid rounded">
+            </div>
+          </div>
+          <div class="col-md-1"></div>
+          <div class="col-md-5">
+            
+            
+            <div class="site-section-heading pt-3 mb-4">
+              <h2 class="text-black">Desde 1989</h2>
+            </div>
+            <p>La Mascada, local 100% lanquino creada en diciembre 1990 para llenar un espacio carente de buenos sándwiches, tablas y cerveza en barril (schop) con productos y ambiente que sobrepasen las expectativas de los clientes, además de crear un espacio que permita la realización personal y el desarrollo de sus colaboradores.</p>
+            <p>Actualmente consolidados gracias a la preferencia de muchas personas  que nos visitan y consumen nuestros productos en casa y con  el lema hecho por nuestros propios clientes "El que no estuvo en La mascada no estuvo Lanco" queremos seguir siendo parte de los lugares más visitados de lanco entregando un gran servicio y productos de primera calidad.</p>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--
+    <div class="site-section border-bottom" data-aos="fade">
+      <div class="container">
+        <div class="row justify-content-center mb-5">
+          <div class="col-md-7 site-section-heading text-center pt-4">
+            <h2>Nuestro Equipo</h2>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 col-lg-3">
+  
+            <div class="block-38 text-center">
+              <div class="block-38-img">
+                <div class="block-38-header">
+                  <img src="{% static 'img/images/team/team6.jpg' %}" alt="Image placeholder" class="mb-4">
+                  <h3 class="block-38-heading h4">Alejandro Peña</h3>
+                  <p class="block-38-subheading">Fundador</p>
+                </div>
+
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3">
+            <div class="block-38 text-center">
+              <div class="block-38-img">
+                <div class="block-38-header">
+                  <img src="{% static 'img/images/team/team3.jpg' %}" alt="Image placeholder" class="mb-4">
+                  <h3 class="block-38-heading h4">Franco Ruiz</h3>
+                  <p class="block-38-subheading">Chef Internacional</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3">
+            <div class="block-38 text-center">
+              <div class="block-38-img">
+                <div class="block-38-header">
+                  <img src="{% static 'img/images/team/team4.jpg' %}" alt="Image placeholder" class="mb-4">
+                  <h3 class="block-38-heading h4">Yenifer Obando</h3>
+                  <p class="block-38-subheading">Encargada de ventas</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3">
+            <div class="block-38 text-center">
+              <div class="block-38-img">
+                <div class="block-38-header">
+                  <img src="{% static 'img/images/team/team5.jpg' %}" alt="Image placeholder" class="mb-4">
+                  <h3 class="block-38-heading h4">María Romero</h3>
+                  <p class="block-38-subheading">Encargada de cocina</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+
+
+<div class="site-section border-bottom" data-aos="fade">
+  <div class="container">
+    <div class="row justify-content-center mb-5">
+      <div class="col-md-7 site-section-heading text-center pt-4">
+        <h2>Galería de Imágenes</h2>
+      </div>
+    </div>
+
+      <link rel="stylesheet" href="{% static 'css/galeriaapp/lightgallery.css' %}">            <link rel="stylesheet" href="{% static 'css/lightgallery.css' %}">
+      <div class="container galeriaapp reveal-textoleft">
+        <ul id="lightgallery1" class="list-unstyled row">
+            {% for items in items %}
+                <li class="col-3  box-galeria2" data-responsive="{{ items.imagen.url }} 375, {{ items.imagen.url }} 480, {{ items.imagen.url }} 800" data-src="{{ items.imagen.url }}" data-sub-html="<h4>{{ items.titulo }}</h4><p>{{ items.descripcion }}</p>" data-pinterest-text="Pin it1" data-tweet-text="compartir en twitter">
+                    <div class="box-galeria ">
+                    <a href="#" class="">
+                        <img class="img-fluid" src="{{ items.imagen|thumbnail_url:'producto2' }}" alt="Thumb-2">
+                        <div class="icono-zoom">
+                            <span class="iconos-nav-principal-sociales fa fa-search-plus fa-1x"></span>
+                        </div>
+                    </a>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>-->
+    
+
+
+
+    <div class="site-section site-section-sm site-blocks-1 border-0" data-aos="fade">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6 col-lg-3  mt-5 mb-5 text-center" data-aos="fade-up" data-aos-delay="">
+            <div class="icon ">
+              <span class="fas fa-hamburger"></span>
+              <h6 class="text-uppercase">Recetas originales</h6>
+            </div>
+  
+          </div>
+          <div class="col-md-6 col-lg-3  mt-5 mb-5 text-center" data-aos="fade-up" data-aos-delay="100">
+            <div class="icon t">
+              <span class="fas fa-utensils"></span>
+            </div>
+            <div class="text">
+              <h6 class="text-uppercase">Calidad en alimentos</h6>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3  mt-5 mb-5 text-center" data-aos="fade-up" data-aos-delay="100">
+            <div class="icon ">
+              <span class="fas fa-star"></span>
+            </div>
+            <div class="text">
+              <h6 class="text-uppercase">Coctelería internacional</h6>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3  mt-5 mb-5 text-center" data-aos="fade-up" data-aos-delay="100">
+            <div class="icon">
+              <span class="fas fa-user-friends"></span>
+            </div>
+            <div class="text">
+              <h6 class="text-uppercase">Ambiente agradable</h6>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3  mt-5 mb-5 text-center" data-aos="fade-up" data-aos-delay="100">
+            <div class="icon">
+              <span class="fas fa-mug-hot"></span>
+            </div>
+            <div class="text">
+              <h6 class="text-uppercase">Cafetería</h6>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3  mt-5 mb-5 text-center" data-aos="fade-up" data-aos-delay="100">
+            <div class="icon">
+              <span class="fas fa-beer"></span>
+            </div>
+            <div class="text">
+              <h6 class="text-uppercase">Cerveza artesanal</h6>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3  mt-5 mb-5 text-center" data-aos="fade-up" data-aos-delay="100">
+            <div class="icon">
+              <span class="fas fa-car"></span>
+            </div>
+            <div class="text">
+              <h6 class="text-uppercase">Estacionamiento</h6>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3  mt-5 mb-5 text-center" data-aos="fade-up" data-aos-delay="100">
+            <div class="icon">
+              <span class="fas fa-motorcycle"></span>
+            </div>
+            <div class="text">
+              <h6 class="text-uppercase">Delivery</h6>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="{% static 'js/galeriaapp/lightgallery.js' %}"></script>
+  <script src="{% static 'js/galeriaapp/lg-pager.js' %}"></script>
+  <script src="{% static 'js/galeriaapp/lg-autoplay.js' %}"></script>
+  <script src="{% static 'js/galeriaapp/lg-fullscreen.js' %}"></script>
+  <script src="{% static 'js/galeriaapp/lg-zoom.js' %}"></script>
+  <script src="{% static 'js/galeriaapp/lg-hash.js' %}"></script>
+  <script src="{% static 'js/galeriaapp/lg-share.js' %}"></script>
+  
+  
+  <script type="text/javascript">
+  lightGallery(document.getElementById('lightgallery1'), {
+  galleryId: 1,
+  }); 
+
+  </script>
+  {% endblock content %}

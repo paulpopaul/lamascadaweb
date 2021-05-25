@@ -1,0 +1,35 @@
+
+{% extends "skeleton.html" %}
+{% load static %}
+
+
+{% block content %}
+  
+{% if order %}
+{% else %}
+
+<div class="site-section" >
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <span class="icon-check_circle display-3 text-danger"></span>
+
+        <h2 class="display-3 text-black">Error!</h2>
+        <h6 class="lead mb-5">Hubo un problema con su transaccción. <br> Intenta de nuevo o comuníquese con su banco.</h6>
+
+        <p><a href="/tienda" class="btn btn-sm btn-primary">Ir a la Caja</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+<script language="JavaScript" type="text/javascript">
+    var red="/checkout"
+    function redireccionar() 
+    {
+    location.href=red
+    } 
+    setTimeout ("redireccionar()",3000);
+    
+    </script>
+{% endif %}
+{% endblock content %}

@@ -1,0 +1,211 @@
+
+{% extends "skeleton.html" %}
+
+{% load static %}
+
+{% block content %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+/* TOGGLE SWITG AND CARD */
+<style>
+.toggle {
+padding: 0 15px 15px;
+text-align: left;
+display: block;
+}
+.toggle a {
+display: inline-block;
+color: #ccc;
+font-size: 24px;
+text-decoration: none !important;
+vertical-align: middle;
+}
+.toggle a.on {
+color: #333;
+}
+.toggle a i.fa-bars {
+transform: translateY(-1px);
+}
+p.toggle-row {
+margin-bottom: 0;
+}
+i {
+font-style: normal;
+}
+.adjust-right {
+margin-right: 7px;
+}
+.adjust-left {
+margin-left: 7px;
+}
+</style>
+<style>
+.ultra-padding{
+margin-top: 200px;
+}
+.view-group {
+display: -ms-flexbox;
+display: flex;
+-ms-flex-direction: row;
+flex-direction: row;
+padding-left: 0;
+margin-bottom: 0;
+}
+.thumbnail
+{
+margin-bottom: 30px;
+padding: 0px;
+-webkit-border-radius: 0px;
+-moz-border-radius: 0px;
+border-radius: 0px;
+}
+.item.list-group-item
+{
+float: none;
+width: 100%;
+background-color: #fff;
+margin-bottom: 30px;
+-ms-flex: 0 0 100%;
+flex: 0 0 100%;
+max-width: 100%;
+padding: 0 1rem;
+border: 0;
+}
+.item.list-group-item .img-event {
+float: left;
+width: 30%;
+}
+.item.list-group-item .list-group-image
+{
+margin-right: 10px;
+}
+.item.list-group-item .thumbnail
+{
+margin-bottom: 0px;
+display: inline-block;
+}
+.item.list-group-item .caption
+{
+float: left;
+width: 70%;
+margin: 0;
+}
+
+.item.list-group-item:before, .item.list-group-item:after
+{
+display: table;
+content: " ";
+}
+
+.item.list-group-item:after
+{
+clear: both;
+}
+</style>
+
+
+
+<section class="pt-5 ultra-padding container" >
+    <div class="">
+        <!-- GRID/LIST TOGGLE -->
+        <div class="row">
+            <div class="col-12">
+              <div class="toggle">
+                <p class="toggle-row">
+                  <a id="grid" class="view grid on" href="#" aria-label="Grid"><i class="fas fa-th  adjust-right" aria-hidden="true"></i></a>
+                  <a id="list" class="view list" href="#" aria-label="List"><i class="fas fa-th-list " aria-hidden="true"></i></a>
+                </p>
+              </div>
+            </div>
+        </div>
+    </div>
+    <div id="products" class="row view-group ">
+        <div class="item col-xs-4 col-lg-4">
+            <div class="thumbnail card rounded">
+                <div class="img-event">
+                    <div class="view zoom  overlay z-depth-2 rounded">
+                        <img class="img-fluid w-100" src="http://magento2.flytheme.net/themes/sm_multe/pub/media/catalog/product/cache/c388b8decc8b6a51ef21367a4a85a83f/4/_/4_6.jpg" alt="Sample">
+                        <a href="">
+                          <div class="mask"></div>
+                        </a>
+                      </div>
+                </div>
+                <div class="caption card-body">
+                    <h4 class="group card-title inner list-group-item-heading">
+                        Product title</h4>
+                    <p class="group inner list-group-item-text">
+                        Product description... Lorem ipsum dolor sit amet, consectetuer adipiscing elit,
+                        sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
+                    <div class="row">
+                        <div class="col-xs-12 col-md-6">
+                            <p class="lead">
+                                $21.000</p>
+                        </div>
+                        <div class="col-xs-12 col-md-6">
+                            <a href=''  type="button" class="btn btn-danger mr-1"><i class="fas fa-shopping-cart pr-2"></i>Agregar al carro</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+//grid/list toggle for thumbnails
+var $gridButton = jQuery("a.view.grid");
+var $listButton = jQuery("a.view.list");
+var $items = jQuery("div.view-mode");
+
+$listButton.on("click", function () {
+$gridButton.removeClass("on");
+$listButton.addClass("on");
+$items.removeClass("col-4").addClass("col-12");
+});
+
+$listButton.on("click", function () {
+$bigButton.removeClass("on");
+$listButton.addClass("on");
+$items.removeClass("col-6").addClass("col-12");
+});
+
+$gridButton.on("click", function () {
+$listButton.removeClass("on");
+$gridButton.addClass("on");
+$items.removeClass("col-12").addClass("col-4");
+});
+
+$gridButton.on("click", function () {
+$bigButton.removeClass("on");
+$gridButton.addClass("on");
+$items.removeClass("col-6").addClass("col-4");
+});
+</script>
+<script>
+$(document).ready(function() {
+$('#list').click(function(event){event.preventDefault();$('#products .item').addClass('list-group-item');});
+$('#grid').click(function(event){event.preventDefault();$('#products .item').removeClass('list-group-item');$('#products .item').addClass('grid-group-item');});
+});
+</script>
+
+{% endblock content %}
+
+<div class="col-md-6 col-lg-4 mb-5">
+    <div class="">
+      <div class="view zoom  overlay z-depth-2 rounded">
+        <img class="img-fluid w-100" src="{{ item.image.url }}" alt="Sample">
+        <a href="{{ item.get_absolute_url }}">
+          <div class="mask"></div>
+        </a>
+      </div>
+      <div class="text-center pt-4">  
+        <h5>{{ item.title }}            
+        </h5>
+        <h6 class="mb-3">${{ item.price }}</h6>
+        <a href='{{ item.get_add_to_cart_url }}'  type="button" class="btn btn-danger mr-1"><i class="fas fa-shopping-cart pr-2"></i>Agregar al carro</a>
+        <a href="{{ item.get_absolute_url }}" type="button" class="btn btn-light px-3 material-tooltip-main" data-toggle="tooltip"
+          data-placement="top" title="Add to wishlist"><i class="far fa-eye"></i></a>
+      </div>
+    </div>
+  </div>

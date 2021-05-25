@@ -1,0 +1,106 @@
+{% extends 'admin/base.html' %}
+{% load humanize %}
+
+{% load static %}
+<link href="{% static 'fonts/icomoon/style.css' %}" rel="stylesheet" >
+
+{% load i18n %}
+
+
+
+
+
+<div id="header">
+        <div id="branding">
+        {% block branding %}
+            <h1 id="head">
+                <img src="{% static 'img/logo/lamascada-logo2.svg' %}" alt="All User Orders" height="35" width="40" class="brand_img">Administración
+            </h1>
+        {% endblock %}
+        </div>
+        {% block usertools %}
+        {% if user.is_authenticated %}
+        <div id="user-tools">
+            {% block welcome-msg %}
+                {% trans 'Welcome,' %}
+                <strong>{% firstof user.get_short_name user.get_username %}</strong>. /
+                <a href="{% url 'admin:index' %}">{% trans ' Admin' %}</a> /
+            {% endblock %}
+            {% block userlinks %}
+                {% if site %}
+                    <a href="{{ site_url }}">{% trans 'View site' %}</a> /
+                {% endif %}
+                {% if user.is_active and user.is_staff %}
+                    {% url 'django-admindocs-docroot' as docsroot %}
+                    {% if docsroot %}
+                        <a href="{{ docsroot }}">{% trans 'Documentation' %}</a> /
+                    {% endif %}
+                {% endif %}
+                {% if user.has_usable_password %}
+                <a href="{% url 'admin:password_change' %}">{% trans 'Change password' %}</a> /
+                {% endif %}
+                <a href="{% url 'admin:logout' %}">{% trans 'Log out' %}</a>
+            {% endblock %}
+        </div>
+        {% endif %}
+        {% endblock %}
+        {% block nav-global %}{% endblock %}
+    </div>
+    
+{% block content %}
+    <div id="content" class="colMS">
+
+        <h1>Detalle de compras realizadas</h1>
+    <div id="content-main">
+        <div class="app-auth module">
+            <div class="col-md-12">
+                    <h2>Listado </h2>
+                    <br>
+                    <p> </p>
+                {% if order %}
+                <table class="table">
+                  <thead>
+                     <tr>
+                        <th scope="col">Nº</th>
+                        <th scope="col">Fecha</th>
+                        <th scope="col">Hora</th>
+                        <th scope="col">Usuario</th>
+
+                        <th scope="col">Id Usuario</th>
+                        <th scope="col">Orden de compra</th>
+                        <th scope="col">Pago</th>
+                        <th scope="col">Detalle</th>
+                     </tr>
+                    </thead>
+                    <tbody>
+                        {% for order in order %}
+                          <tr>
+                            <td>{{order.order_id}}</td>
+                            <td>{{order.created|date:'D d / m (M) / Y'}}</td>
+                            <td>{{order.created|time:"H:i a"}}</td>
+                            <td>{{order.user}}</td>
+
+                            <td>{{order.user_id}}</td>
+
+                            <td>{{order.buy_order}}</td>
+                            <td>Exitoso  <span class="icon-check_circle"></span></td>
+                            <td>
+                              <a class="btn btn-light" href="{% url 'orderdetail' order.buy_order %}">Ver Detalle</a>
+                            </td>
+                           </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                    <p>Customers didnt bought anything yet</p>
+                {% endif %}            
+            </div>
+{% endblock %}
+
+
+
+{% block extrastyle %}
+   
+   <link rel="stylesheet" href="{% static 'css/admin.css' %}">
+
+{% endblock %}

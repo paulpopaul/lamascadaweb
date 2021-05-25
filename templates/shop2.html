@@ -1,0 +1,577 @@
+{% extends "skeleton.html" %}
+{% load static %}
+{% load render_template_tags %}
+{% load crispy_forms_tags %}
+{% load filter_urls_tags %}
+{% load humanize %}
+
+{% block content %}
+
+
+<style>
+.skin-light .btn-danger {
+color: #fff;
+background-color: #E8163F !important;
+}
+.red {
+background-color: #F9E12F!important;
+}
+.skin-light .classic-tabs .nav.tabs-primary li a.active {
+color: #E8163F !important;
+border-color: #F15A29 !important;
+}
+</style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<style>
+.selector.open ul {
+max-height: none;
+}
+.selector.open .show-all:after {
+display: none;
+}
+* {
+-webkit-box-sizing: border-box;
+-ms-box-sizing: border-box;
+box-sizing: border-box;
+}
+</style>
+<style>
+.toggle {
+
+text-align: left;
+display: block;
+}
+.toggle a {
+display: inline-block;
+color: #ccc;
+font-size: 24px;
+text-decoration: none !important;
+vertical-align: middle;
+}
+.toggle a.on {
+color: #333;
+}
+.toggle a i.fa-bars {
+transform: translateY(-1px);
+}
+p.toggle-row {
+margin-bottom: 0;
+}
+i {
+font-style: normal;
+}
+.adjust-right {
+margin-right: 7px;
+}
+.adjust-left {
+margin-left: 7px;
+}
+</style>
+<style>
+.ultra-padding{
+margin-top: 200px;
+}
+.view-group {
+display: -ms-flexbox;
+display: flex;
+-ms-flex-direction: row;
+flex-direction: row;
+padding-left: 0;
+margin-bottom: 0;
+}
+.thumbnail
+{
+margin-bottom: 30px;
+padding: 0px;
+-webkit-border-radius: 0px;
+-moz-border-radius: 0px;
+border-radius: 0px;
+}
+.item.list-group-item
+{
+float: none;
+width: 100%;
+background-color: #fff;
+margin-bottom: 30px;
+-ms-flex: 0 0 100%;
+flex: 0 0 100%;
+max-width: 100%;
+padding: 0 1rem;
+border: 0;
+}
+.item.list-group-item .img-event {
+float: left;
+width: 30%;
+}
+.item.list-group-item .list-group-image
+{
+margin-right: 10px;
+}
+.item.list-group-item .thumbnail
+{
+margin-bottom: 0px;
+display: inline-block;
+}
+.item.list-group-item .caption
+{
+float: left;
+width: 70%;
+margin: 0;
+}
+
+.item.list-group-item:before, .item.list-group-item:after
+{
+display: table;
+content: " ";
+}
+
+.item.list-group-item:after
+{
+clear: both;
+}
+
+
+/*-------- BADGES - NEW - PERCENTAGE -------*/
+.badge-new {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+.badge-percentage {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+
+.bootstrap-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn) {
+    width: 175px;
+}
+
+.bootstrap-select:not(.input-group-btn), .bootstrap-select[class*="col-"] {
+    float: none;
+    display: inline-block;
+    margin-left: 0;
+    width: 175px;
+
+}
+</style>
+  
+  
+<div class="jumbotron color-grey-light mt-83">
+  <div class="jumbotron jumbotron-image color-grey-light" style="background-image: url('../static/img/back-murtao.jpg'); height: 400px;">
+    <div class="mask rgba-black-strong d-flex align-items-center h-100">
+      <div class="container text-center white-text py-5">
+        <h1 class="mb-0">Tienda</h1>
+        <p class="m-text13 t-center">Todas las Categorias</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <nav class="navbar navbar-light border-dashed">
+    <ol class="breadcrumb ">
+      <li class="breadcrumb-item"><a class="waves-effect" href="/"><i class="fas fa-home mr-1"></i> Inicio</a></li>
+      <li class="breadcrumb-item"><a class="waves-effect" href="/shop">Tienda</a></li>
+      <li class="breadcrumb-item active">Todas las Categorias</li>
+    </ol>
+  </nav>
+
+  <div class="row mt-3 mt-5">
+    <div class="col-md-3 mb-4">
+
+      <section>
+        <h5 class="pt-2 mb-4">Filtrar por:</h5>
+        <section class="mb-4">
+          <form class="id_form md-form md-outline mt-0 d-flex justify-content-between align-items-center" method="GET">
+            {{ filter.form.title__icontains|as_crispy_field }}
+            <button type="submit" class="btn btn-flat btn-md pt-2 px-3 waves-effect"><i class="fas fa-search fa-lg"></i></button>
+          </form>
+          <style type="text/css">
+            label[for="id_form"],[for="id_title__icontains"]
+            {
+              display:none;
+            }
+            input[id="id_form"],[id="div_id_title__icontains"]
+            {
+              font-family: Roboto,sans-serif;
+              font-weight:300;
+              margin-bottom: 0;
+              margin-top: 3px;
+              width: 100%;
+              
+            }
+            </style>
+            <script>
+              document.getElementsByName('title__icontains')[0].placeholder='Buscar';
+            </script>
+          </section>
+        <section>
+
+          <h6 class="pb-3">Categorías</h6>
+          <div class="text-muted small text-uppercase mb-5 justify-content-between align-items-center">
+              <p class="mb-2">
+                <a href="/shop" class="card-link-secondary">Ver todas 
+                  <span class="badge badge-danger badge-pill">{% item_counter %}</span>
+                    {% categories_li_a %}
+          </div>
+        </section>
+
+        <section>
+          {{ filter.id_form }}
+          <section class="mb-4">
+            <h6 class=" mb-3">Precio</h6>
+              <form class="form-check pl-0 mb-3" method="GET">
+              <input  value="from_0_to_50" name="pricerange" type="radio" class="form-check-input" onchange="this.form.submit();"  id="id_pricerange_0"  >
+              <label class="form-check-label small text-uppercase card-link-secondary" for="id_pricerange_0">Bajo
+                7000</label>
+              </form>
+            <div class="form-check pl-0 mb-3">
+              <input type="radio" class="form-check-input" id="2550" name="materialExampleRadios">
+              <label class="form-check-label small text-uppercase card-link-secondary" for="2550">7000 a 14000</label>
+            </div>
+            <div class="form-check pl-0 mb-3">
+              <input type="radio" class="form-check-input" id="50100" name="materialExampleRadios">
+              <label class="form-check-label small text-uppercase card-link-secondary" for="50100">$14000 a 5000</label>
+            </div>
+            <div class="form-check pl-0 mb-3">
+              <input type="radio" class="form-check-input" id="100200" name="materialExampleRadios">
+              <label class="form-check-label small text-uppercase card-link-secondary" for="100200">$100 to
+                $200</label>
+            </div>
+            <div class="form-check pl-0 mb-3">
+              <input type="radio" class="form-check-input" id="200above" name="materialExampleRadios">
+              <label class="form-check-label small text-uppercase card-link-secondary" for="200above">$200 &
+                Above</label>
+            </div>
+          </section>
+        </section>
+
+        <div class="selector">
+          <div class="price-slider w-50">
+            <div id="slider-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content">
+              <div class="ui-slider-range ui-corner-all ui-widget-header"></div>
+                <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"></span>
+                <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"></span>
+              </div>
+              <span name="price__gte" id="min-price" data-currency="$" class="slider-price">0</span> 
+              <span class="seperator">-</span> 
+              <span  name="price__lte" id="max-price" data-currency="$" data-max="40000" class="slider-price">40.000</span>
+              </div>
+                <form method="GET" >
+                  <input class="form-control mb-0" type="hidden" id="preciominimotxt" step="50" name="price__gte"/>
+                  <input class="form-control mb-0" type="hidden" id="preciomaximotxt" step="50" name="price__lte"/>
+                  <button  class="btn btn-primary" type="submit">Filtrar</button>
+                </form>
+              </div>
+
+            </section>
+          </section>
+        </div>
+        
+        <div class="col-md-9 mb-4 ">
+          <section class="mb-3">
+            <div class="row">
+              
+              <div class=" col-md-2 text-center text-md-left">
+                <div class="toggle">
+                  <p class="toggle-row">
+                    <a id="grid" class="view grid on" href="#" aria-label="Grid"><i class="fas fa-th  adjust-right" aria-hidden="true"></i></a>
+                    <a id="list" class="view list" href="#" aria-label="List"><i class="fas fa-th-list " aria-hidden="true"></i></a>
+                  </p>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <form method="GET">
+                  <select name="paginate_by" id="">
+                      <option value="10">10</option>
+                      <option value="20">10</option>
+                      <option value="30">30</option>
+                      <option value="50">50</option>
+                  </select>
+                  <input type="submit" value="Paginate">
+                </form>
+              </div>
+              <div class="col-md-5">
+                <div class="d-flex flex-wrap">
+                  <div class="select-outline position-relative ">
+                    <form class="" method="GET">
+                      {{ filter.form.ordering_total }}
+                      <label>Ordenar por</label>
+                    </form>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </section>
+
+          <section class="pt-3" >
+            <div id="products" class="row view-group ">
+
+              {% for item in object_list %}
+              <div class="item col-xs-4 col-lg-4">
+                <div class="thumbnail card rounded">
+                  <div class="img-event">
+
+                    <div class="view zoom  overlay z-depth-2 rounded">
+                      <img class="img-fluid w-100" src="{{ item.image.url }}" alt="Sample">
+
+                      <style>
+                        .badge-color-product .nuevo{
+                          background: #00d68f;
+                        }
+                        .badge-color-product .promocion{
+                          background: #000000;
+                        }
+                      </style>
+                      {% if item.label_is_active == True %}
+                      <h4 class="mb-0 badge-color-product"><span class="badge {{ item.get_label_display }} badge-pill  badge-new ">{{ item.label }}</span></h4>
+                      {% else %}
+                      {% endif %}
+                      {% if item.discount_price_is_active == True %}
+                      <h4 class="mb-0"><span class="badge badge-danger badge-pill badge-percentage ">{{ item.discount_price }}%</span></h4>
+                      {% else %}
+                      {% endif %}
+                      
+                      <a href="{{ item.get_absolute_url }}">
+                      <div class="mask">
+                        <img class="img-fluid w-100"
+                          src="{{ item.image.url }}">
+                        <div class="mask rgba-black-slight"></div>
+                      </div>
+                      </a>
+                    </div>
+                  </div>
+
+                  <div class="caption card-body">
+                    <h4 class="group card-title inner list-group-item-heading">
+                    {{ item.title }}   </h4>
+                    <p id="texto-field" class="texto group inner list-group-item-text ">
+                        <p class="hidden-text">{{ item.description }}</p>
+                    </p>
+                    <div class="row">
+                      <div class="col-xs-12 col-md-6">
+                        <p class="lead">${{ item.price|intcomma }}</p>
+                      </div>
+                      <div class="col-xs-12 col-md-6">
+                          <a href='{{ item.get_add_to_cart_url }}'  type="button" class="btn btn-danger mr-1"><i class="fas fa-shopping-cart pr-2"></i>Agregar al carro</a>
+                          <a href="{{ item.get_absolute_url }}" type="button" class="btn btn-light px-3 material-tooltip-main" data-toggle="tooltip"
+                          data-placement="top" title="Add to wishlist"><i class="far fa-eye"></i></a>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+              
+              {% endfor %}
+
+            </div>
+          </section>
+
+          <section>
+            Mostrando {{ page_obj.start_index }} a {{ page_obj.end_index }} / de {{ page_obj.paginator.count }} productos.
+
+            <div class="row d-flex justify-content-around align-items-center">
+              <div class="col-12 col-md-4 text-center">
+                {% if is_paginated %}
+                <nav aria-label="d-flex justify-content-center wow fadeIn">
+                  <ul class="pagination pg-purple justify-content-center float-md-right mb-0">
+                    {% if page_obj.has_previous %}
+                    <li class="page-item"><a href="{% filter_urls page_obj.previous_page_numbe 'page' request.GET.urlencode %}" class="page-link"><i class="fas fa-chevron-left"></i></a></li>
+                    {% endif %}
+                    <li class="page-item active"><a href="{% filter_urls page_obj.number 'page' request.GET.urlencode %}" class="page-link">{{ page_obj.number }}</a></li>
+                    {% if page_obj.has_next %}
+                    <li class="page-item"><a href="{% filter_urls page_obj.next_page_number 'page' request.GET.urlencode %}" class="page-link"><i class="fas fa-chevron-right"></i></a></li>
+                    {% endif %}
+                  </ul>
+                </nav>
+                {% endif %}
+              </div>
+            </div>
+          </section>
+
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+
+
+<script>
+const numberFormat = new Intl.NumberFormat("de-ES");
+$("#slider-range").slider({
+range: true,
+min: 0,
+max: 40000,
+values: [ 0, 40000 ],
+step: 500,
+
+slide: function (event, ui) {
+$("#min-price").html(numberFormat.format(ui.values[0]));
+$( "#preciominimotxt" ).val( ui.values[ 0 ]) +  $( "#preciomaximotxt" ).val( ui.values[ 1 ]);
+
+suffix = "";
+if (ui.values[1] == $("#max-price").data("max")) {
+suffix = " +";
+}
+$("#max-price").html(numberFormat.format(ui.values[1]));
+}
+});
+</script>
+<script>
+var $gridButton = jQuery("a.view.grid");
+var $listButton = jQuery("a.view.list");
+var $items = jQuery("div.view-mode");
+
+$listButton.on("click", function () {
+$gridButton.removeClass("on");
+$listButton.addClass("on");
+$items.removeClass("col-4").addClass("col-12");
+});
+
+$gridButton.on("click", function () {
+$listButton.removeClass("on");
+$gridButton.addClass("on");
+$items.removeClass("col-12").addClass("col-4");
+});
+</script>
+<script>
+$(".hidden-text").hide();  
+
+$listButton.on("click", function () {
+$(".hidden-text").show();
+});
+
+$gridButton.on("click", function () {
+$(".hidden-text").hide();
+});
+
+$(document).ready(function() {
+$('#list').click(function(event){event.preventDefault();$('#products .item').addClass('list-group-item');});
+$('#grid').click(function(event){event.preventDefault();$('#products .item').removeClass('list-group-item ');$('#products .item').addClass('grid-group-item');});
+});
+</script>
+
+
+{% endblock content %}
+
+<div class="col-12 col-md-5">
+  <div class="d-flex flex-wrap">
+    <div class="select-outline position-relative w-100">
+      <form class="" method="GET">
+        {{ filter.form.ordering_total }}
+        <label>Ordenar por</label>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="row d-flex justify-content-around align-items-center">
+  <div class="col-12 col-md-3 text-center text-md-left">
+    <a href="#!" class="text-reset"><i class="fas fa-th-list fa-lg mr-1"></i></a href="#!">
+    <a href="#!" class="text-reset"><i class="fas fa-th-large fa-lg"></i></a href="#!">
+  </div>
+  Mostrando {{ page_obj.start_index }} a {{ page_obj.end_index }} resultados de {{ page_obj.paginator.count }}.
+  {% if result %}
+  Se encontraron {{ result }} de  {{ all_items }} items
+  {% else %}
+  {% endif %}
+
+  <div class="results">Mostrando <span>{% item_counter %}</span> results</div>
+
+
+
+
+  </div>
+
+
+
+  <section>
+    Mostrando {{ page_obj.start_index }} a {{ page_obj.end_index }} / de {{ page_obj.paginator.count }} productos.
+
+    <div class="row d-flex justify-content-around align-items-center">
+      <div class="col-12 col-md-4 text-center">
+        {% if is_paginated %}
+        <nav aria-label="d-flex justify-content-center wow fadeIn">
+          <ul class="pagination pg-purple justify-content-center float-md-right mb-0">
+            {% if page_obj.has_previous %}
+            <li class="page-item"><a href="{% filter_urls page_obj.previous_page_numbe 'page' request.GET.urlencode %}" class="page-link"><i class="fas fa-chevron-left"></i></a></li>
+            {% endif %}
+            <li class="page-item active"><a href="{% filter_urls page_obj.number 'page' request.GET.urlencode %}" class="page-link">{{ page_obj.number }}</a></li>
+            {% if page_obj.has_next %}
+            <li class="page-item"><a href="{% filter_urls page_obj.next_page_number 'page' request.GET.urlencode %}" class="page-link"><i class="fas fa-chevron-right"></i></a></li>
+            {% endif %}
+          </ul>
+        </nav>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+
+</div>
+</section>
+</div>
+</div>
+</div>
+
+
+    
+  <!--<div class="jumbotron color-grey-light mt-83">
+    <div class="jumbotron jumbotron-image color-grey-light" style="background-image: url('../static/img/back-murtao.jpg'); height: 400px;">
+      <div class="mask rgba-black-strong d-flex align-items-center h-100">
+        <div class="container text-center white-text py-5">
+          <h1 class="mb-0">Tienda</h1>
+          <p class="m-text13 t-center">Todas las Categorias</p>
+        </div>
+      </div>
+    </div>
+  </div>-->
+
+
+
+
+<div class="row d-flex justify-content-around align-items-center">
+
+Mostrando {{ page_obj.start_index }} a {{ page_obj.end_index }} resultados de {{ page_obj.paginator.count }}.
+{% if result %}
+Se encontraron {{ result }} de  {{ all_items }} items
+{% else %}
+{% endif %}
+
+<div class="results">Mostrando <span>{% item_counter %}</span> results</div>
+
+
+                 <!--  
+              <div class="col-md-5">
+
+                <form method="GET">
+                  <select name="paginate_by " class="" id="">
+                      <option value="10">10</option>
+                      <option value="20">20</option>
+                      <option value="30">30</option>
+                      <option value="50">50</option>
+                  </select>
+                  <input type="submit" value="Paginate">
+                </form>
+              </div>
+            
+           <select class="selectpicker">
+                <optgroup label="Europe">
+                  <option>Germany</option>
+                  <option>Slovenia</option>
+                  <option disabled>UK</option>
+                </optgroup>
+                <optgroup label="Africa" disabled>
+                  <option>Nigeria</option>
+                  <option>South Africa</option>
+                </optgroup>
+              </select>-->

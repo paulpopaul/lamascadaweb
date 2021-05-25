@@ -1,0 +1,110 @@
+
+
+{% extends "account/base.html" %}
+{% load i18n %}
+{% load account socialaccount %}
+{% load crispy_forms_tags %}
+
+
+
+
+{% block head_title %}{% trans "Sign In" %}{% endblock %}
+
+{% block content %}
+<style>
+  .text-primary {
+    color: #5c626e!important;
+}
+.form-check-input {
+    position: absolute;
+    margin-top: 0.3rem;
+    margin-left: -16px;
+}
+</style>
+<main>
+  <div class="container pb-5">
+    <section class="mb-4">
+      <div class="row wow fadeIn">
+        <div class='col-6 offset-3'>
+          <div class="container text-center py-5">
+            <h3 class="mb-0">{% trans "Sign In" %}</h3>
+
+          </div>
+        {% get_providers as socialaccount_providers %}
+
+        {% if socialaccount_providers %}
+        <p>{% blocktrans with site.name as site_name %}Please sign in with one
+        of your existing third party accounts. Or, <a href="{{ signup_url }}">sign up</a>
+        for a {{ site_name }} account and sign in below:{% endblocktrans %}</p>
+
+        <div class="socialaccount_ballot">
+
+          <ul class="socialaccount_providers">
+            {% include "socialaccount/snippets/provider_list.html" with process="login" %}
+          </ul>
+
+          <div class="login-or">{% trans 'or' %}</div>
+
+        </div>
+
+        {% include "socialaccount/snippets/login_extra.html" %}
+
+        {% else %}
+        <p class="text-center">{% blocktrans %} Si aún no ha creado una cuenta, 
+        <a class="text-primary" href="{{ signup_url }}">regístrese</a> primero.{% endblocktrans %}</p>
+        {% endif %}
+
+        <form class="login" method="POST" action="{% url 'account_login' %}">
+          {% csrf_token %}
+
+
+
+
+          {{ form.login|as_crispy_field }}
+          {{ form.password|as_crispy_field }}
+
+
+
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <div class="form-check pl-0 mb-3">
+              {{ form.remember }}
+
+              <input type="checkbox" class="form-check-input filled-in" id="new">
+              <label class="form-check-label small text-uppercase card-link-secondary" for="new">RECORDARME</label>
+            </div>
+
+            <p><a class="text-primary" href="{% url 'account_reset_password' %}">
+              ¿Se te olvidó tu contraseña?</a></p>
+
+          </div>
+          {% if redirect_field_value %}
+          <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+          {% endif %}
+          <div class="text-center pb-2">
+          <button class="btn btn-lg btn-primary" type="submit">{% trans "Sign In" %}</button>
+          </div>
+        </form>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+
+
+<style type="text/css">
+label[for="id_login"],[for="id_password"]
+{
+    display:none;
+}
+
+input[id="id_login"],[id="id_password"]
+{
+      font-family: Roboto,sans-serif;
+      font-weight:300;
+      margin-bottom: 16px;
+}
+</style>
+{% endblock %}
+
+
+font-family: Roboto,sans-serif;

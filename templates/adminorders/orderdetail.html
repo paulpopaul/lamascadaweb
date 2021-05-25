@@ -1,0 +1,157 @@
+{% extends 'admin/base.html' %}
+{% load humanize %}
+
+{% load static %}
+{% load i18n %}
+
+
+
+
+
+
+<div id="header">
+    <div id="branding">
+    {% block branding %}
+        <h1 id="head">
+            <img src="{% static 'img/logo/lamascada-logo2.svg' %}" alt="All User Orders" height="35" width="40" class="brand_img"> Compras de Usuarios
+        </h1>
+    {% endblock %}
+    </div>
+    {% block usertools %}
+    {% if user.is_authenticated %}
+    <div id="user-tools">
+        
+        {% block welcome-msg %}
+            {% trans 'Welcome,' %}
+            <strong>{% firstof user.get_short_name user.get_username %}</strong>. /
+            <a href="{% url 'admin:index' %}">Admin</a> /
+        {% endblock %}
+        {% block userlinks %}
+            {% if site %}
+                <a href="{{ site_url }}">{% trans 'View site' %}</a> /
+            {% endif %}
+            {% if user.is_active and user.is_staff %}
+                {% url 'django-admindocs-docroot' as docsroot %}
+                {% if docsroot %}
+                    <a href="{{ docsroot }}">{% trans 'Documentation' %}</a> /
+                {% endif %}
+            {% endif %}
+            {% if user.has_usable_password %}
+            <a href="{% url 'admin:password_change' %}">{% trans 'Change password' %}</a> /
+            {% endif %}
+            <a href="{% url 'admin:logout' %}">{% trans 'Log out' %}</a>
+        {% endblock %}
+    </div>
+    {% endif %}
+    {% endblock %}
+
+    {% block nav-global %}
+
+    {% endblock %}
+    
+</div>
+
+
+{% block content %}
+<a href="{% url 'allorders' %}">Volver Atrás</a> 
+
+    <div id="content" class="colMS">
+            
+        <h1>Orden de compra: <strong>{{buy_order}}</strong></h1>
+        {% if orders %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Cantidad</th>
+                    <th scope="col">Precio Normal</th>
+
+                    <th scope="col">Descuento en Item</th>
+                    <th scope="col">Precio Final</th>
+                    <th scope="col">ID Item</th>
+
+                    <th></th>
+                        
+                </tr>
+            </thead>
+            <tbody>
+                {% for orderitem in orderitem %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ orderitem.item.title }}</td>
+                        <td>{{ orderitem.quantity }}</td>
+                        <td>${{ orderitem.item.price|floatformat|intcomma }}</td>
+
+                        {% if orderitem.item.discount_price_is_active == True %}
+                        <td>{{ orderitem.item.discount_price|floatformat|intcomma }}% Off</td>
+                        <td>${{ orderitem.get_discount_item|floatformat|intcomma }}</rd>
+                        {% else %}
+                        <td>No</td>
+                        <td>${{ orderitem.item.price|floatformat|intcomma }}</rd>
+                        {% endif %}
+
+                        <td>{{ orderitem.item.id_item }}</td>
+                        <td>
+                           <a class="btn btn-light" href="{{ orderitem.item.get_absolute_url }}">Ver Item</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <br>
+        {% endif %}            
+    <div id="content-main">
+        <div class="app-auth module">
+                <div class="col-md-12">
+                    <h2 >Información del Usuario</h2>
+                    <br>
+                    <p>Usuario: <strong>{{perfil_info.user}} </strong></h4>
+                        <br>
+                        <hr>
+                        <br>
+                        <p>Hora: <strong>{{ orderbuy.created|time:"H:i a" }}</strong></p>
+                        <p>Día: <strong>{{ orderbuy.created|date:'D d' }}</strong></p>
+                        <p>Mes: <strong>{{ orderbuy.created|date:'m (M)' }}</strong></p>
+                        <p>Año: <strong>{{ orderbuy.created|date:'Y' }}</strong></p>
+                        <br>
+                        <hr>
+                        <br>
+                        <p>Nombre: <strong>{{perfil_info.first_name}} {{perfil_info.last_name}}</strong></p>
+                        <p>Ciudad: <strong>{{perfil_info.city}}</strong> </p>
+                        <p>Dirección: <strong>{{perfil_info.street_address}}, #{{perfil_info.apartment_address}}</strong></p>
+                        <p>Correo Electrónico: <strong>{{perfil_info.email}}</strong></p>
+                        <p>Teléfono: <strong>{{perfil_info.phone}}</strong></p>
+                        <br>
+                        <hr>
+                        <br>
+                        <p>Nota: <strong>{{perfil_info.order_notes}}</strong></p>
+                        <br>
+                        <h2>Subtotal: <strong>${{ order.get_total_final|floatformat|intcomma }}</strong> </h2>
+                        <br>
+
+                        {% if order.coupon %}
+                        <p> Cupón Aplicado: <strong>Sí </strong></p>
+                        <p>Código: <strong>{{ order.coupon.code }} </strong></p>
+                        <p>Descuento: <strong>{{ order.coupon.amount|floatformat|intcomma }}% Off</strong></p>
+                        <p>Ahorra: <strong>${{ order.get_discount_order_total|floatformat|intcomma }}</strong></p>
+                        {% else %}
+                        <p> Cupón Aplicado: No </p>
+
+                        {% endif %}
+                        <br>
+
+                        <h2 style="background:#000;"> Total: <strong> ${{ order.get_total|floatformat|intcomma }}</strong> </h2>
+                        <br>
+
+                        <p></p>
+ 
+            </div>
+{% endblock %}
+
+
+{% block extrastyle %}
+   
+   <link rel="stylesheet" href="{% static 'css/admin.css' %}">
+
+{% endblock %}

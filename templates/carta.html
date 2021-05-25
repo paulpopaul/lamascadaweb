@@ -1,0 +1,38 @@
+{% extends "skeleton.html" %}
+{% load thumbnail %}
+{% load static %}
+
+{% block content %}
+
+
+  
+      <div class="bg-light py-3">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12 mb-0"><a href="/">Inicio</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">Carta Local</strong></div>
+          </div>
+        </div>
+      </div>  
+
+
+
+<div class="site-section border-bottom" data-aos="fade">
+<div class="container-fluid">
+<div class="row">
+<div class="m-auto">
+{% for carta in carta %}
+<div class="col-12 col-md-12 pb-2 text-center">
+<img src="{{ carta.imagen.url }}" class="img-fluid">
+</div>
+{% endfor %}
+</div>
+</div>
+</div>
+</div>
+
+
+
+
+{% endblock content %}
+
+

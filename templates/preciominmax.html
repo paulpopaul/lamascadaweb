@@ -1,0 +1,58 @@
+<h1>chao mundo cluel</h1>
+
+
+
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script>
+  $( function() {
+    $( "#slider-range" ).slider({
+      range: true,
+      min: 0,
+      max: 50000,
+      values: [ 2000, 10000 ],
+      slide: function( event, ui ) {
+        $( "#preciominimotxt" ).val( ui.values[ 0 ]) +  $( "#preciomaximotxt" ).val( ui.values[ 1 ]);
+      }
+    });
+   
+  } );
+  </script>
+
+ 
+
+
+<center>
+    <h1>Cómo implentar un filtro de Min y Max con Qjery</h1>
+    <hr/>
+    <form method="POST">
+        {% csrf_token %}
+        Precio Minimo<input type="text" id="preciominimotxt" name="preciominimo"/>
+        Precio Maximo<input type="text" id="preciomaximotxt" name="preciomaximo"/>
+        <input type="submit" value="main" />
+        <hr id="slider-range"/>
+
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Precio</th>
+            <th>Categoria</th>
+        </tr>
+        {% for result in data %}
+
+        <tr>
+            <td>{{ result.id_item }}</td>
+            <td>{{ result.title }}</td>
+            <td>{{ result.price }}</td>
+            <td>{{ result.category }}</td>
+
+        </tr>
+        {% endfor %}
+
+    </table>
+    </form>
+</center>

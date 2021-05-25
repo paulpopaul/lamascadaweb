@@ -1,0 +1,2 @@
+{% load i18n %}
+{% blocktrans %}Correo de activación enviado a {{email}}.{% endblocktrans %}

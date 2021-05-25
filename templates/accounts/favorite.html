@@ -1,0 +1,100 @@
+{% extends "skeleton.html" %}
+{% load humanize %}
+{% load static %}
+{% block title %} dashboard {% endblock %}
+
+{% block content %}
+
+<div class="bg-light py-3">
+<div class="container" >
+<div class="row">
+<div class="col-md-12 mb-0"><a href="/">Inicio</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">Favoritos</strong></div>
+</div>
+</div>
+</div>
+<div class="site-section" data-aos="fade">
+<div class="container">
+<div class="row">
+<div class="col-md-12 text-center">
+<span style="color: rgb(216, 32, 32);" class="icon-heart display-3"></span>
+<p class="lead mb-5">Lista de productos favoritos.</p>
+</div>
+</div>
+
+{% if favorites %}
+<div class="row mb-5">
+<div class="col-md-12">
+<div class="site-blocks-table">
+<table class="table table-bordered">
+<thead>
+
+<tr>
+<th class="">#</th>
+<th class="product-thumbnail">Imagen</th>
+<th class="product-name">Item</th>
+<th class="product-price">Precio</th>
+<th class="product-quantity"> Detalle</th>
+<th class="product-remove">Eliminar</th>
+</tr>
+</thead>
+<tbody>
+
+{% for favorites in favorites %}
+<tr>
+<td>{{ forloop.counter }}</td>
+
+<td class="product-thumbnail">
+    
+<a href=""><img src="{{favorites.product_photo}}" alt="Image" class="img-fluid"></a>
+</td>
+
+<td class="product-name">
+{{favorites.product_name}}
+</td>
+
+<td>${{favorites.product_price|floatformat|intcomma }}</td>
+
+<td>
+<a class="btn btn-sm btn-primary" href="{% url 'core:product' favorites.product_slug %}">Ver detalle</a>
+</td>
+
+
+<td>
+    <a href="javascript:{document.getElementById('delete').submit()}" class="btn btn-primary btn-sm">
+        <span>X</span>
+    </a>
+<form action="{% url 'core:removefavorite' %}" method="POST" id="delete">
+    {% csrf_token %}
+
+<input type="hidden" name="favorites_id" value="{{favorites.id}}">
+<input type="hidden" name="product_slug" value="{{favorites.product_slug}}">
+<input type="hidden" name="product_id" value="{{favorites.product_id}}">
+<input type="hidden" name="product_name" value="{{favorites.product_name}}">
+</form>     
+</td>
+
+
+
+</tr>
+{% endfor %}
+
+</tbody>
+</table>
+</div>
+</div>
+</div>
+{% else %}
+        
+<div class="col-md-12 text-center">
+  <p><span> No tienes favoritos </span></p>
+</div>
+</div>
+{% endif %}
+
+</div>
+</div>
+</div>
+</div>
+
+
+{% endblock %}

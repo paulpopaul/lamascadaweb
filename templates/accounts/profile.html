@@ -1,0 +1,195 @@
+{% extends "skeleton.html" %}
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+
+<style>
+
+    
+</style>
+
+
+
+<div class="">
+    <div class="bg-light py-3">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 mb-0"><a href="/">Inicio</a>  <span class="mx-2 mb-0">/</span> <strong class="text-black">Perfil</strong></div>
+        </div>
+      </div>
+    </div>
+  
+<style>
+
+
+.badge-icon-2{
+    color:#dee2e6;
+}
+.badge-icon{
+    color:#F15A29;
+}
+.ultima-nota{
+background:#f9f9f9;
+height: 50px;
+}
+.color-text-card{
+color:#adb5bd;
+}
+.card-body {
+width: 394px;
+border: 1px solid #dee2e6;
+margin:auto;
+}
+.card-profile-image {
+position: relative;
+
+}
+
+.card-profile-image img {
+position: absolute;
+left: 50%;
+max-width: 180px;
+transition: all .15s ease;
+transform: translate(-50%, -30%);
+border-radius: .375rem;
+
+}
+
+.card-profile-image img:hover {
+transform: translate(-50%, -33%);
+}
+
+.card-profile-stats {
+padding: 6px 0;
+}
+
+.card-profile-stats>div {
+margin-right:6px;
+padding: 11px 3px;
+text-align: center;
+width: 67px;
+
+}
+
+.card-profile-stats>div .heading {
+font-size: 1.1rem;
+font-weight: bold;
+}
+
+.card-profile-stats>div .description {
+font-size: .875rem;
+color: #adb5bd;
+}
+
+</style>
+<div class="container">
+<div class="card-body mt-5 mb-5  pt-5">
+
+<div class="row">
+<div class="col-12 text-center">
+<img style="opacity: 0.1;" class="img-fluid" width="144px" src=" {% static 'img/perfil/perfil.png' %}">
+</div>
+</div>
+<div class="text-center pt-4">
+<h3>{{ user.username }}<span class="font-weight-light"></span></h3>
+<div class="h5 color-text-card">
+<i class="ni location_pin mr-2  "></i>{{ user.email }} 
+</div>
+</div>
+<div class="row">
+<div class="col">
+<div class="card-profile-stats d-flex justify-content-center border mt-2 ">
+
+<!--<div class="text-center">
+<a href="/dashboard">
+<span class="icon badge-icon icon-shopping_cart"></span>
+<span class="heading ">{{ order_item }}</span>
+<span class="description">Productos</span>
+</a>
+</div>-->
+
+<div class="text-center">
+<a href="/dashboard">
+<span class="icon badge-icon icon icon-payment"></span>
+<span class="heading">{{ order_buy }}</span>
+<span class="description">Pagos</span>
+</a>
+
+</div>
+
+
+<div class="text-center">
+<a>
+<i class="fas badge-icon  fa-user-tag"></i>
+<span class="heading">{{ coupon_used }}</span>
+<span class="description">Cupones</span>
+</a>
+
+</div>
+
+
+
+<div>
+  <a href="/favorites">
+
+<span class="icon badge-icon icon-heart-o"></span>
+<span class="heading">{{ favorites }}</span>
+<span class="description">Favoritos</span>
+</a>
+
+</div>
+
+</div>
+</div>
+</div>
+<div class="text-center pt-4 ">
+<div class="">
+{% if perfil_account %}
+<h4>
+{{ perfil_account.first_name}} 
+{{ perfil_account.last_name}} 
+</h4>
+<br>
+<i class="fa fa-map-marker badge-icon-2"></i> 
+<br>
+
+
+
+<h6>
+{{ perfil_account.city}},
+{{ perfil_account.street_address}} 
+#{{ perfil_account.apartment_address}} 
+</h6>
+
+<br>
+
+
+<i class="fa fa-phone badge-icon-2"></i> 
+
+<h6>{{ perfil_account.phone}}</h6>
+
+<br>
+
+<div class="ultima-nota">
+Última nota:
+
+<h6>{{ perfil_account.order_notes}}      </h6>
+</div>
+<br>
+
+
+{% else %}
+No hay pagos realizados
+{% endif %}
+
+</div></div></div></div></div>
+{% else %}
+<script>
+window.location.href = "/";
+</script>
+{% endif %}
+{% endblock content %}
+
